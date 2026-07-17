@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(run)",
+      "Bash(curl -s http://localhost:8123/index.html)",
+      "Bash(python3 -c \"import playwright\")",
+      "Bash(npx --yes playwright --version)",
+      "Bash(npx playwright *)",
+      "Bash(node check.js)",
+      "Bash(node verify.js)",
+      "Bash(node verify_multipage.js)",
+      "Bash(pkill -f \"http.server 8123\")"
+    ]
+  }
+}
