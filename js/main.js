@@ -106,6 +106,22 @@ if (pricingGrid) {
   });
 }
 
+// ---- Mobile nav toggle ----
+const navToggle = document.getElementById('nav-toggle');
+if (navToggle) {
+  const siteNav = navToggle.closest('.site-nav');
+  navToggle.addEventListener('click', () => {
+    const open = siteNav.classList.toggle('menu-open');
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', (e) => {
+    if (siteNav.classList.contains('menu-open') && !siteNav.contains(e.target)) {
+      siteNav.classList.remove('menu-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
 // ---- Rotating hero word (home only) ----
 const wordEl = document.getElementById('rotating-word');
 if (wordEl) {

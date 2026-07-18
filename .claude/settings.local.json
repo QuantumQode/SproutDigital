@@ -9,7 +9,9 @@
       "Bash(node check.js)",
       "Bash(node verify.js)",
       "Bash(node verify_multipage.js)",
-      "Bash(pkill -f \"http.server 8123\")"
+      "Bash(pkill -f \"http.server 8123\")",
+      "Bash(git mv *)",
+      "Bash(git add *)"
     ]
   }
 }
