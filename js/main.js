@@ -1,5 +1,5 @@
 // ---- Content data ----
-const logoNames = ['Willow & Co.', 'North Bay Dental', 'Marlow Studio', 'Fern & Field', 'Halden Fitness'];
+const logoNames = ['GIAT LTD', 'NinjaPlumbers', 'DiyahAesthetics', 'ShineyPetGrooming'];
 
 const services = [
   { icon: '🌱', title: 'Website design & build', body: 'Modern, fast websites tailored to solo founders and small teams — built to convert, not just look nice.' },
@@ -8,12 +8,10 @@ const services = [
 ];
 
 const projects = [
-  { tag: 'Retail', name: 'Fern & Field', img: 'https://picsum.photos/seed/fern-shop/640/420' },
-  { tag: 'Health', name: 'North Bay Dental', img: 'https://picsum.photos/seed/dental-web/640/420' },
-  { tag: 'Fitness', name: 'Halden Fitness', img: 'https://picsum.photos/seed/fitness-web/640/420' },
-  { tag: 'Hospitality', name: 'Willow & Co.', img: 'https://picsum.photos/seed/willow-cafe/640/420' },
-  { tag: 'Creative', name: 'Marlow Studio', img: 'https://picsum.photos/seed/marlow-studio/640/420' },
-  { tag: 'Trades', name: 'Ashgrove Plumbing', img: 'https://picsum.photos/seed/ashgrove-site/640/420' },
+  { tag: 'Corporate', name: 'GIAT LTD', img: 'https://picsum.photos/seed/giat-corporate/640/420' },
+  { tag: 'Trades', name: 'NinjaPlumbers', img: 'https://picsum.photos/seed/ninja-plumbers/640/420' },
+  { tag: 'Beauty', name: 'DiyahAesthetics', img: 'https://picsum.photos/seed/diyah-aesthetics/640/420' },
+  { tag: 'Pet Care', name: 'ShineyPetGrooming', img: 'https://picsum.photos/seed/shiney-pet-grooming/640/420' },
 ];
 
 const steps = [
