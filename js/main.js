@@ -3,22 +3,37 @@ const logoNames = ['GIAT LTD', 'NinjaPlumbers', 'DiyahAesthetics', 'ShineyPetGro
 
 const services = [
   { icon: '🌱', title: 'Website design & build', body: 'Modern, fast websites tailored to solo founders and small teams — built to convert, not just look nice.' },
+  { icon: '📣', title: 'Google & Meta Ads', body: 'Paid campaigns on Google Search, Facebook, and Instagram that drive clicks from people ready to buy — tracked all the way to revenue.' },
   { icon: '🔍', title: 'SEO', body: 'Technical fixes, on-page optimization, and content that gets you found on Google for the searches that matter.' },
-  { icon: '📣', title: 'Marketing', body: 'Email, social, and local marketing campaigns that keep new customers coming back for more.' },
 ];
 
 const projects = [
-  { tag: 'Corporate', name: 'GIAT LTD', img: 'https://picsum.photos/seed/giat-corporate/640/420' },
-  { tag: 'Trades', name: 'NinjaPlumbers', img: 'https://picsum.photos/seed/ninja-plumbers/640/420' },
-  { tag: 'Beauty', name: 'DiyahAesthetics', img: 'https://picsum.photos/seed/diyah-aesthetics/640/420' },
-  { tag: 'Pet Care', name: 'ShineyPetGrooming', img: 'https://picsum.photos/seed/shiney-pet-grooming/640/420' },
+  { tag: 'Corporate', name: 'GIAT LTD', img: 'https://picsum.photos/seed/giat-corporate/640/420', result: '+3.2x return on ad spend' },
+  { tag: 'Trades', name: 'NinjaPlumbers', img: 'https://picsum.photos/seed/ninja-plumbers/640/420', result: '52 leads/mo from Google Ads' },
+  { tag: 'Beauty', name: 'DiyahAesthetics', img: 'https://picsum.photos/seed/diyah-aesthetics/640/420', result: '2.4x bookings via Meta Ads' },
+  { tag: 'Pet Care', name: 'ShineyPetGrooming', img: 'https://picsum.photos/seed/shiney-pet-grooming/640/420', result: '+180% organic traffic' },
 ];
 
 const steps = [
-  { num: '01', title: 'Free audit', body: 'We review your current site and rankings, and share what’s holding you back.' },
+  { num: '01', title: 'Free audit', body: 'We review your current site, rankings, and ad accounts, and share what’s holding you back.' },
   { num: '02', title: 'Design & build', body: 'A fresh, on-brand site designed around your customers and goals.' },
-  { num: '03', title: 'Launch & optimize', body: 'We launch, then tune SEO and speed so people can actually find you.' },
-  { num: '04', title: 'Grow', body: 'Ongoing marketing and reporting keep traffic and leads climbing.' },
+  { num: '03', title: 'Launch & optimize', body: 'We launch the site and your first ad campaigns, then tune targeting, SEO, and speed.' },
+  { num: '04', title: 'Grow', body: 'Ongoing ads management and reporting keep clicks, leads, and revenue climbing.' },
+];
+
+const tickerKeywords = [
+  'plumber near me', 'best hair salon', 'emergency electrician', 'dog groomer open now',
+  'accountant for small business', 'physio near me', 'wedding photographer prices',
+  'landscaping quotes', 'personal trainer', 'cafe open late',
+];
+
+const testimonials = [
+  { color: 't-green', initials: 'JT', name: 'James T.', role: 'NinjaPlumbers',
+    quote: 'Within a month of the Google Ads going live, we were booked solid two weeks out. The phone genuinely doesn’t stop ringing on Mondays now.' },
+  { color: 't-amber', initials: 'DA', name: 'Diyah A.', role: 'DiyahAesthetics',
+    quote: 'The Instagram campaigns paid for themselves in the first week. New clients tell us the ads are what got them through the door.' },
+  { color: 't-blue', initials: 'SG', name: 'Sarah G.', role: 'ShineyPetGrooming',
+    quote: 'I finally understand where my marketing money goes. The monthly report shows exactly which ads brought in bookings — no jargon, just numbers.' },
 ];
 
 const plans = [
@@ -27,7 +42,7 @@ const plans = [
   { name: 'Growth', desc: 'For small teams ready to rank and grow.', price: '$650', period: '/month', featured: true,
     features: ['Everything in Starter', 'Ongoing SEO & content', 'Monthly reporting', 'Email marketing setup'] },
   { name: 'Scale', desc: 'For businesses investing in full growth.', price: '$1,400', period: '/month', featured: false,
-    features: ['Everything in Growth', 'Paid ad management', 'Conversion rate testing', 'Dedicated strategist'] },
+    features: ['Everything in Growth', 'Google & Meta ads management', 'Conversion rate testing', 'Dedicated strategist'] },
 ];
 
 // ---- Render helpers ----
@@ -66,6 +81,7 @@ if (workGrid) {
       <div class="work-body">
         <div class="work-tag">${p.tag}</div>
         <div class="work-name">${p.name}</div>
+        ${p.result ? `<div class="work-result">📈 ${p.result}</div>` : ''}
       </div>
     `;
     workGrid.appendChild(card);
@@ -104,6 +120,73 @@ if (pricingGrid) {
   });
 }
 
+// ---- Keyword ticker (home only) ----
+const tickerTrack = document.getElementById('ticker-track');
+if (tickerTrack) {
+  const half = tickerKeywords
+    .map(k => `<span class="ticker-item">${k}</span><span class="ticker-sep">●</span>`)
+    .join('');
+  // two identical halves so the -50% scroll loops seamlessly
+  tickerTrack.innerHTML = `<div class="ticker-half">${half}</div><div class="ticker-half">${half}</div>`;
+}
+
+// ---- Testimonials (home only) ----
+const testimonialsGrid = document.getElementById('testimonials-grid');
+if (testimonialsGrid) {
+  testimonials.forEach(t => {
+    const card = el('div', `testimonial-card liftcard ${t.color}`);
+    card.innerHTML = `
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">“${t.quote}”</p>
+      <div class="testimonial-who">
+        <div class="testimonial-avatar">${t.initials}</div>
+        <div>
+          <div class="testimonial-name">${t.name}</div>
+          <div class="testimonial-role">${t.role}</div>
+        </div>
+      </div>
+    `;
+    testimonialsGrid.appendChild(card);
+  });
+}
+
+// ---- Ads dashboard: animate funnel bars + count up stats when scrolled into view ----
+const adsDash = document.getElementById('ads-dash');
+if (adsDash) {
+  const runCounters = () => {
+    adsDash.querySelectorAll('.ads-stat-num[data-count]').forEach(elNum => {
+      const target = parseFloat(elNum.dataset.count);
+      const prefix = elNum.dataset.prefix || '';
+      const suffix = elNum.dataset.suffix || '';
+      const decimals = String(elNum.dataset.count).includes('.') ? 1 : 0;
+      const dur = 1400;
+      const start = performance.now();
+      const tick = (now) => {
+        const p = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        elNum.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  };
+  const go = () => {
+    adsDash.classList.add('dash-go');
+    runCounters();
+  };
+  if (!('IntersectionObserver' in window)) {
+    go();
+  } else {
+    const dashIo = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) {
+        go();
+        dashIo.disconnect();
+      }
+    }, { threshold: 0.35 });
+    dashIo.observe(adsDash);
+  }
+}
+
 // ---- Mobile nav toggle ----
 const navToggle = document.getElementById('nav-toggle');
 if (navToggle) {
@@ -123,7 +206,7 @@ if (navToggle) {
 // ---- Rotating hero word (home only) ----
 const wordEl = document.getElementById('rotating-word');
 if (wordEl) {
-  const words = ['grows', 'ranks', 'converts', 'works'];
+  const words = ['grows', 'sells', 'ranks', 'converts', 'advertises'];
   let wordIdx = 0;
   setInterval(() => {
     if (document.hidden) return; // don't churn animations in background tabs
@@ -245,7 +328,7 @@ if (!reducedMotion && fineHover) {
 // Staggered scroll reveal
 if (!reducedMotion && 'IntersectionObserver' in window) {
   const targets = document.querySelectorAll(
-    '.service-card, .work-card, .plan-card, .step-card, .contact-point, .logo-item, .section-head'
+    '.service-card, .work-card, .plan-card, .step-card, .contact-point, .logo-item, .section-head, .testimonial-card, .split-card, .faq-item, .ads-copy'
   );
   targets.forEach(t => {
     const idx = t.parentElement ? [...t.parentElement.children].indexOf(t) : 0;

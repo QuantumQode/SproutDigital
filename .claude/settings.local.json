@@ -12,7 +12,8 @@
       "Bash(pkill -f \"http.server 8123\")",
       "Bash(git mv *)",
       "Bash(git add *)",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(node --check /Users/pouria/Projects/SproutDigital/js/main.js)"
     ]
   }
 }
