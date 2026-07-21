@@ -154,11 +154,16 @@ if (testimonialsGrid) {
 const adsDash = document.getElementById('ads-dash');
 if (adsDash) {
   const runCounters = () => {
+    const preferReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     adsDash.querySelectorAll('.ads-stat-num[data-count]').forEach(elNum => {
       const target = parseFloat(elNum.dataset.count);
       const prefix = elNum.dataset.prefix || '';
       const suffix = elNum.dataset.suffix || '';
       const decimals = String(elNum.dataset.count).includes('.') ? 1 : 0;
+      if (preferReduced) {
+        elNum.textContent = prefix + target.toFixed(decimals) + suffix;
+        return;
+      }
       const dur = 1400;
       const start = performance.now();
       const tick = (now) => {
@@ -208,6 +213,24 @@ const wordEl = document.getElementById('rotating-word');
 if (wordEl) {
   const words = ['grows', 'sells', 'ranks', 'converts', 'advertises'];
   let wordIdx = 0;
+
+  // Reserve width for the widest word so the headline doesn't reflow/rewrap as words change length
+  const measurer = document.createElement('span');
+  measurer.style.cssText = 'position:absolute; visibility:hidden; white-space:nowrap; left:-9999px; top:0;';
+  document.body.appendChild(measurer);
+  const lockWordWidth = () => {
+    measurer.style.font = getComputedStyle(wordEl).font;
+    let maxWidth = 0;
+    words.forEach(w => {
+      measurer.textContent = w;
+      maxWidth = Math.max(maxWidth, measurer.offsetWidth);
+    });
+    wordEl.style.minWidth = maxWidth + 'px';
+  };
+  lockWordWidth();
+  window.addEventListener('resize', lockWordWidth);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(lockWordWidth);
+
   setInterval(() => {
     if (document.hidden) return; // don't churn animations in background tabs
     wordIdx = (wordIdx + 1) % words.length;

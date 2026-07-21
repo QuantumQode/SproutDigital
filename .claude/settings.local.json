@@ -13,7 +13,8 @@
       "Bash(git mv *)",
       "Bash(git add *)",
       "Bash(curl *)",
-      "Bash(node --check /Users/pouria/Projects/SproutDigital/js/main.js)"
+      "Bash(node --check /Users/pouria/Projects/SproutDigital/js/main.js)",
+      "Bash(kill %1)"
     ]
   }
 }

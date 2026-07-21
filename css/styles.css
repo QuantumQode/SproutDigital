@@ -188,6 +188,7 @@ nav.site-nav {
 #rotating-word {
   display: inline-block;
   color: oklch(0.55 0.15 150);
+  text-align: center;
   animation: wordIn 0.5s cubic-bezier(.2,.8,.2,1);
   border-bottom: 5px solid oklch(0.8 0.12 150);
   line-height: 1;
