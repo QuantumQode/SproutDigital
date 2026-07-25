@@ -291,24 +291,24 @@ nav.site-nav.scrolled {
   animation: blobFloat 15s ease-in-out infinite;
 }
 
-/* Glassy greenhouse bubbles: bordered circles with a light catch, slow drift */
+/* Glassy greenhouse bubbles: near-transparent bordered circles with a light catch, wide slow drift */
 .bubble {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  border: 1.5px solid light-dark(oklch(0.65 0.12 150 / 0.35), oklch(0.7 0.12 150 / 0.3));
+  border: 1.5px solid light-dark(oklch(0.65 0.12 150 / 0.4), oklch(0.72 0.12 150 / 0.35));
   background:
-    radial-gradient(circle at 32% 28%, light-dark(oklch(1 0 0 / 0.9), oklch(0.9 0.05 150 / 0.28)), transparent 45%),
-    light-dark(oklch(0.95 0.03 150 / 0.5), oklch(0.34 0.06 150 / 0.3));
+    radial-gradient(circle at 32% 28%, light-dark(oklch(1 0 0 / 0.5), oklch(0.9 0.05 150 / 0.18)), transparent 45%),
+    light-dark(oklch(0.95 0.03 150 / 0.16), oklch(0.4 0.07 150 / 0.1));
   box-shadow:
-    inset -6px -8px 14px oklch(from var(--shadow-tint) l c h / 0.12),
-    0 10px 20px -12px oklch(from var(--shadow-tint) l c h / 0.25);
-  animation: bubbleDrift 11s ease-in-out infinite;
+    inset -8px -10px 18px oklch(from var(--shadow-tint) l c h / 0.08),
+    0 12px 24px -14px oklch(from var(--shadow-tint) l c h / 0.2);
+  animation: bubbleDrift 12s ease-in-out infinite;
 }
-.bubble-a { width: 44px; height: 44px; top: 14%; right: 4%; }
-.bubble-b { width: 20px; height: 20px; top: 32%; right: 11%; animation-duration: 14s; animation-delay: -4s; animation-direction: reverse; }
-.bubble-c { width: 30px; height: 30px; bottom: 18%; left: 3%; animation-duration: 12s; animation-delay: -7s; }
-.bubble-d { width: 14px; height: 14px; bottom: 34%; left: 9%; animation-duration: 9s; animation-delay: -2s; animation-direction: reverse; }
+.bubble-a { width: 96px; height: 96px; top: 14%; right: 4%; }
+.bubble-b { width: 44px; height: 44px; top: 32%; right: 11%; animation-duration: 15s; animation-delay: -5s; animation-direction: reverse; }
+.bubble-c { width: 68px; height: 68px; bottom: 18%; left: 3%; animation-duration: 13s; animation-delay: -7s; }
+.bubble-d { width: 30px; height: 30px; bottom: 34%; left: 9%; animation-duration: 10s; animation-delay: -2s; animation-direction: reverse; }
 .hero-copy { flex: 1.1; position: relative; z-index: 1; }
 .eyebrow {
   display: inline-flex;
@@ -1094,7 +1094,7 @@ nav.site-nav.scrolled {
   mask-image: radial-gradient(ellipse 45% 60% at 86% 18%, black, transparent 75%);
   pointer-events: none;
 }
-.cta-box .bubble-a { top: auto; bottom: -16px; right: 6%; width: 58px; height: 58px; }
+.cta-box .bubble-a { top: auto; bottom: -20px; right: 6%; width: 110px; height: 110px; }
 .cta-box .bubble-c { bottom: auto; top: 22px; left: 5%; }
 .cta-box .bubble-d { bottom: 24%; left: 12%; }
 .cta-box h2 { font-size: clamp(30px, 3vw + 6px, 44px); font-weight: 700; letter-spacing: -0.01em; margin: 0 0 20px; }
@@ -1318,9 +1318,10 @@ nav.site-nav.scrolled {
   66% { translate: -20px 18px; scale: 0.95; }
 }
 @keyframes bubbleDrift {
-  0%, 100% { translate: 0 0; }
-  40% { translate: 10px -22px; }
-  70% { translate: -6px -8px; }
+  0%, 100% { translate: 0 0; scale: 1; }
+  25% { translate: 22px -48px; scale: 1.05; }
+  50% { translate: -14px -84px; scale: 0.97; }
+  75% { translate: -30px -36px; scale: 1.03; }
 }
 @keyframes cardFloat {
   0%, 100% { transform: translateY(0) rotate(-2deg); }
