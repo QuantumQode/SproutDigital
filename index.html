@@ -5,17 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SproutDigital — Websites, SEO &amp; Google/Meta Ads for Small Businesses</title>
 <meta name="description" content="SproutDigital builds modern websites for solo founders and small teams, then drives real revenue with Google Ads, Meta Ads, and SEO built for real budgets.">
+<link rel="canonical" href="https://sproutdigital.tech/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SproutDigital">
+<meta property="og:title" content="SproutDigital — Websites, SEO &amp; Google/Meta Ads for Small Businesses">
+<meta property="og:description" content="Modern websites for solo founders and small teams — turned into revenue engines with Google Ads, Meta Ads, and SEO built for real budgets.">
+<meta property="og:url" content="https://sproutdigital.tech/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#f7faf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a201b" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'%3E%3Cpath d='M28 48 L28 26' stroke='%233A4A3F' stroke-width='3.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M28 30 C28 14, 44 10, 48 8 C48 24, 40 30, 28 30 Z' fill='%232F9E63'/%3E%3Cpath d='M28 34 C28 20, 14 16, 10 14 C10 28, 18 34, 28 34 Z' fill='%234CB472'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "SproutDigital",
+  "url": "https://sproutdigital.tech/",
+  "description": "Websites, SEO, and Google & Meta Ads for solo founders and small businesses.",
+  "priceRange": "$$"
+}
+</script>
 </head>
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="scroll-progress" aria-hidden="true"></div>
 
 <div class="wrap">
 
   <!-- NAV -->
-  <nav class="site-nav">
+  <nav class="site-nav" aria-label="Main">
     <a href="index.html" class="brand">
       <svg class="brand-mark" width="34" height="34" viewBox="0 0 56 56" aria-hidden="true">
         <path d="M28 48 L28 26" stroke="oklch(0.35 0.02 150)" stroke-width="3.5" stroke-linecap="round" fill="none"></path>
@@ -24,18 +47,18 @@
       </svg>
       <div class="brand-name">Sprout<span>Digital</span></div>
     </a>
-    <div class="nav-links">
-      <a href="pages/services.html" class="navlink">Services</a>
-      <a href="pages/work.html" class="navlink">Work</a>
-      <a href="pages/pricing.html" class="navlink">Pricing</a>
-      <a href="pages/contact.html" class="navlink">Contact</a>
-      <a href="pages/contact.html" class="navlink nav-cta-mobile">Get a free audit →</a>
-    </div>
-    <a href="pages/contact.html" class="nav-cta">Get a free audit <span>→</span></a>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="pages/services.html" class="navlink">Services</a></li>
+      <li><a href="pages/work.html" class="navlink">Work</a></li>
+      <li><a href="pages/pricing.html" class="navlink">Pricing</a></li>
+      <li><a href="pages/contact.html" class="navlink">Contact</a></li>
+      <li><a href="pages/contact.html" class="navlink nav-cta-mobile">Get a free audit →</a></li>
+    </ul>
+    <a href="pages/contact.html" class="nav-cta">Get a free audit <span aria-hidden="true">→</span></a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
   </nav>
 
-  <main>
+  <main id="main">
 
   <!-- HERO -->
   <section class="hero">
@@ -50,25 +73,38 @@
       <h1>A website that <span id="rotating-word">grows</span> for your business.</h1>
       <p class="lede">SproutDigital builds modern websites for solo founders and small teams — then turns them into revenue engines with Google Ads, Meta Ads, and SEO built for real budgets.</p>
       <div class="hero-ctas">
-        <a href="pages/contact.html" class="btn-primary">Get a free audit <span>→</span></a>
+        <a href="pages/contact.html" class="btn-primary">Get a free audit <span aria-hidden="true">→</span></a>
         <a href="pages/work.html" class="btn-secondary">See our work</a>
       </div>
     </div>
 
     <div class="hero-visual" id="hero-visual">
-      <div class="hero-img-tilt" id="hero-img-tilt">
-        <img src="https://loremflickr.com/700/880/laptop,website,workspace" alt="Founder working on a laptop">
-      </div>
-      <div class="card-a-tilt" id="card-a-tilt">
+      <div class="hero-mock-wrap" id="hero-mock-wrap">
+        <div class="browser-mock hero-mock" aria-hidden="true">
+          <div class="mock-bar">
+            <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+            <span class="mock-url">yourbusiness.com</span>
+          </div>
+          <div class="mock-page">
+            <div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"><i></i><i></i><i></i></span><span class="mock-btn"></span></div>
+            <div class="mock-hero">
+              <div class="mock-h1"></div><div class="mock-h1 short"></div>
+              <div class="mock-text"></div><div class="mock-text short"></div>
+              <div class="mock-cta"></div>
+            </div>
+            <div class="mock-cards"><i></i><i></i><i></i></div>
+          </div>
+        </div>
         <div class="card-a-float">
           <div class="card-a-label">Organic traffic</div>
-          <div class="card-a-value"><span class="num">+248%</span><span class="arrow">↑</span></div>
-          <svg width="140" height="36" viewBox="0 0 140 36" aria-hidden="true"><path d="M2 32 C 24 30, 36 24, 54 22 S 90 16, 106 10 S 130 4, 138 2" fill="none" stroke="oklch(0.6 0.15 150)" stroke-width="3" stroke-linecap="round"></path></svg>
+          <div class="card-a-value">
+            <span class="num">+248%</span>
+            <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
+          </div>
+          <svg width="140" height="36" viewBox="0 0 140 36" aria-hidden="true" style="color: var(--green);"><path d="M2 32 C 24 30, 36 24, 54 22 S 90 16, 106 10 S 130 4, 138 2" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></svg>
         </div>
-      </div>
-      <div class="card-b-tilt" id="card-b-tilt">
         <div class="card-b-float">
-          <span class="card-b-emoji">🌱</span>
+          <span class="card-b-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
           <div>
             <div class="card-b-title">New lead!</div>
             <div class="card-b-sub">via Google Ads</div>
@@ -81,13 +117,8 @@
   <!-- LOGOS -->
   <section class="logos-section">
     <div class="logos-heading">Trusted by solo founders and small teams across industries</div>
-    <div class="logos-row" id="logos-row"></div>
+    <div id="logos-row"></div>
   </section>
-
-  <!-- KEYWORD TICKER -->
-  <div class="ticker-section" aria-hidden="true">
-    <div class="ticker-track" id="ticker-track"></div>
-  </div>
 
   <!-- SERVICES TEASER -->
   <section class="services-section">
@@ -98,47 +129,79 @@
     <div class="services-grid" id="services-grid"></div>
   </section>
 
+  <!-- RESULTS BENTO -->
+  <section class="bento-section">
+    <div class="section-head">
+      <div class="eyebrow-label">Results</div>
+      <h2>Numbers our clients actually feel.</h2>
+    </div>
+    <div class="bento-grid" id="bento-grid">
+      <div class="bento-tile bento-roas">
+        <div class="bento-trend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Return on ad spend</div>
+        <div class="bento-num" data-count="4.6" data-suffix="x">0x</div>
+        <div class="bento-label">Average return across managed accounts — every $1 of ad spend brings back $4.60.</div>
+        <div class="bento-spark"><svg viewBox="0 0 200 48" preserveAspectRatio="none" aria-hidden="true"><path d="M2 44 C 30 42, 55 34, 80 30 S 130 18, 160 10 S 190 4, 198 2" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+      </div>
+      <div class="bento-tile bento-cpl">
+        <div class="bento-num" data-count="38" data-prefix="-" data-suffix="%">0%</div>
+        <div class="bento-label">Cost per lead after 90 days of optimization.</div>
+      </div>
+      <div class="bento-tile bento-launch">
+        <div class="bento-num" data-count="24" data-suffix="h">0h</div>
+        <div class="bento-label">From sign-off to your first live campaign.</div>
+      </div>
+      <div class="bento-tile bento-quote">
+        <blockquote>“Within a month of the Google Ads going live, we were booked solid two weeks out.”</blockquote>
+        <div class="bento-quote-who"><span class="avatar-chip" aria-hidden="true">JT</span> James T. — NinjaPlumbers</div>
+      </div>
+    </div>
+  </section>
+
   <!-- PAID ADS SHOWCASE -->
   <section class="ads-section">
     <div class="ads-box">
-      <div class="ads-copy">
-        <div class="eyebrow-label">Paid advertising</div>
-        <h2>Google &amp; Meta ads that turn clicks into customers.</h2>
-        <p>A great website is only half the story. We plan, launch, and manage paid campaigns on Google Search and Meta (Facebook &amp; Instagram) that put your business in front of people ready to buy — and we track every click through to revenue, so you always know what your ad spend is actually earning.</p>
-        <div class="ads-chips">
-          <span class="ads-chip"><span class="chip-dot" style="background:oklch(0.65 0.17 250);"></span>Google Search Ads</span>
-          <span class="ads-chip"><span class="chip-dot" style="background:oklch(0.65 0.2 300);"></span>Meta — Facebook &amp; Instagram</span>
-          <span class="ads-chip"><span class="chip-dot" style="background:oklch(0.7 0.16 150);"></span>Retargeting</span>
-          <span class="ads-chip"><span class="chip-dot" style="background:oklch(0.75 0.15 80);"></span>Conversion tracking</span>
+      <div class="ads-inner">
+        <div class="ads-copy">
+          <div class="eyebrow-label">Paid advertising</div>
+          <h2>Google &amp; Meta ads that turn clicks into customers.</h2>
+          <p>A great website is only half the story. We plan, launch, and manage paid campaigns on Google Search and Meta (Facebook &amp; Instagram) that put your business in front of people ready to buy — and we track every click through to revenue, so you always know what your ad spend is actually earning.</p>
+          <div class="ads-chips">
+            <span class="ads-chip"><span class="chip-dot" style="background:oklch(0.65 0.17 250);"></span>Google Search Ads</span>
+            <span class="ads-chip"><span class="chip-dot" style="background:oklch(0.65 0.2 300);"></span>Meta — Facebook &amp; Instagram</span>
+            <span class="ads-chip"><span class="chip-dot" style="background:oklch(0.7 0.16 150);"></span>Retargeting</span>
+            <span class="ads-chip"><span class="chip-dot" style="background:oklch(0.75 0.15 80);"></span>Conversion tracking</span>
+          </div>
+          <a href="pages/contact.html" class="btn-primary">Get a free ads plan <span aria-hidden="true">→</span></a>
         </div>
-        <a href="pages/contact.html" class="btn-primary">Get a free ads plan <span>→</span></a>
+        <div class="ads-dash" id="ads-dash">
+          <div class="ads-dash-title">
+            <span>Campaign snapshot</span>
+            <span class="dash-live"><span class="live-dot"></span>Live</span>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-top"><span class="funnel-label">Ad impressions</span><span class="funnel-value">128k</span></div>
+            <div class="funnel-bar" style="--w:100%; --fd:0s;"></div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-top"><span class="funnel-label">Clicks to site</span><span class="funnel-value">6,400</span></div>
+            <div class="funnel-bar" style="--w:72%; --fd:.2s;"></div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-top"><span class="funnel-label">Leads &amp; enquiries</span><span class="funnel-value">512</span></div>
+            <div class="funnel-bar" style="--w:46%; --fd:.4s;"></div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-top"><span class="funnel-label">New customers</span><span class="funnel-value">137</span></div>
+            <div class="funnel-bar" style="--w:24%; --fd:.6s;"></div>
+          </div>
+          <div class="ads-roi">
+            <strong>4.6x</strong>
+            <span>average return on ad spend — every click tracked through to revenue, not vanity metrics.</span>
+          </div>
+        </div>
       </div>
-      <div class="ads-dash" id="ads-dash">
-        <div class="ads-dash-title">
-          <span>Campaign snapshot</span>
-          <span class="dash-live"><span class="live-dot"></span>Live</span>
-        </div>
-        <div class="funnel-row">
-          <div class="funnel-top"><span class="funnel-label">Ad impressions</span><span class="funnel-value">128k</span></div>
-          <div class="funnel-bar" style="--w:100%; --fd:0s;"></div>
-        </div>
-        <div class="funnel-row">
-          <div class="funnel-top"><span class="funnel-label">Clicks to site</span><span class="funnel-value">6,400</span></div>
-          <div class="funnel-bar" style="--w:72%; --fd:.2s;"></div>
-        </div>
-        <div class="funnel-row">
-          <div class="funnel-top"><span class="funnel-label">Leads &amp; enquiries</span><span class="funnel-value">512</span></div>
-          <div class="funnel-bar" style="--w:46%; --fd:.4s;"></div>
-        </div>
-        <div class="funnel-row">
-          <div class="funnel-top"><span class="funnel-label">New customers</span><span class="funnel-value">137</span></div>
-          <div class="funnel-bar" style="--w:24%; --fd:.6s;"></div>
-        </div>
-        <div class="ads-stats">
-          <div><div class="ads-stat-num" data-count="4.6" data-suffix="x">0x</div><div class="ads-stat-label">Average return on ad spend</div></div>
-          <div><div class="ads-stat-num" data-count="38" data-prefix="-" data-suffix="%">0%</div><div class="ads-stat-label">Cost per lead after 90 days</div></div>
-          <div><div class="ads-stat-num" data-count="24" data-suffix="h">0h</div><div class="ads-stat-label">To launch your first campaign</div></div>
-        </div>
+      <div class="ads-ticker" aria-hidden="true">
+        <div class="ticker-track" id="ticker-track"></div>
       </div>
     </div>
   </section>
@@ -169,7 +232,14 @@
     <div class="cta-box">
       <h2>Ready for a website you're proud of?</h2>
       <p>Get a free audit of your current site and a plan to grow it — no obligation.</p>
-      <a href="pages/contact.html" class="btn-primary">Get a free audit <span>→</span></a>
+      <div class="cta-proof">
+        <div class="cta-avatars" aria-hidden="true"><span>JT</span><span>DA</span><span>SG</span><span>+9</span></div>
+        <div class="cta-proof-text">
+          <span class="cta-proof-stars" role="img" aria-label="Rated 5 out of 5 stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+          from the founders we work with
+        </div>
+      </div>
+      <a href="pages/contact.html" class="btn-primary">Get a free audit <span aria-hidden="true">→</span></a>
     </div>
   </section>
 
@@ -177,16 +247,58 @@
 
   <!-- FOOTER -->
   <footer class="site-footer">
-    <div class="footer-brand">SproutDigital</div>
-    <div class="footer-links">
-      <a href="pages/services.html">Services</a>
-      <a href="pages/work.html">Work</a>
-      <a href="pages/pricing.html">Pricing</a>
-      <a href="pages/contact.html">Contact</a>
+    <div class="footer-top">
+      <div class="footer-col footer-about">
+        <a href="index.html" class="brand">
+          <svg class="brand-mark" width="30" height="30" viewBox="0 0 56 56" aria-hidden="true">
+            <path d="M28 48 L28 26" stroke="oklch(0.35 0.02 150)" stroke-width="3.5" stroke-linecap="round" fill="none"></path>
+            <path d="M28 30 C28 14, 44 10, 48 8 C48 24, 40 30, 28 30 Z" fill="oklch(0.6 0.15 150)"></path>
+            <path d="M28 34 C28 20, 14 16, 10 14 C10 28, 18 34, 28 34 Z" fill="oklch(0.68 0.14 145)"></path>
+          </svg>
+          <div class="brand-name">Sprout<span>Digital</span></div>
+        </a>
+        <p>Websites, SEO, and paid ads for small businesses that want to grow — all under one roof.</p>
+        <a class="footer-email" href="mailto:hello@sproutdigital.tech"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>hello@sproutdigital.tech</a>
+      </div>
+      <nav class="footer-col" aria-label="Footer">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="pages/services.html">Services</a></li>
+          <li><a href="pages/work.html">Work</a></li>
+          <li><a href="pages/pricing.html">Pricing</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer-col">
+        <h3>What we do</h3>
+        <ul>
+          <li><a href="pages/services.html">Website design &amp; build</a></li>
+          <li><a href="pages/services.html">Google Ads</a></li>
+          <li><a href="pages/services.html">Meta Ads</a></li>
+          <li><a href="pages/services.html">SEO</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-cta-col">
+        <h3>Ready to grow?</h3>
+        <p>Get a free audit of your site and rankings — no obligation.</p>
+        <a href="pages/contact.html" class="btn-primary">Get a free audit</a>
+      </div>
     </div>
-    <div>© 2026 SproutDigital. All rights reserved.</div>
+    <div class="footer-bottom">
+      <div>© 2026 SproutDigital. All rights reserved.</div>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/" aria-label="SproutDigital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="https://www.facebook.com/" aria-label="SproutDigital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="https://www.linkedin.com/" aria-label="SproutDigital on LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      </div>
+    </div>
   </footer>
 
+</div>
+
+<!-- Sticky mobile CTA -->
+<div class="mobile-cta-bar" id="mobile-cta-bar">
+  <a href="pages/contact.html" class="btn-primary">Get a free audit <span aria-hidden="true">→</span></a>
 </div>
 
 <script src="js/main.js"></script>

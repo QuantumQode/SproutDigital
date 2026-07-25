@@ -14,7 +14,14 @@
       "Bash(git add *)",
       "Bash(curl *)",
       "Bash(node --check /Users/pouria/Projects/SproutDigital/js/main.js)",
-      "Bash(kill %1)"
+      "Bash(kill %1)",
+      "Bash(python3 \"/Users/pouria/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.11.0/.claude/skills/ui-ux-pro-max/scripts/search.py\" \"digital marketing agency small business modern friendly green\" --design-system -p \"SproutDigital\")",
+      "Bash(python3 \"/Users/pouria/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.11.0/.claude/skills/ui-ux-pro-max/scripts/search.py\" \"landing page hero social proof pricing conversion\" --domain landing -n 8)",
+      "Bash(python3 \"/Users/pouria/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.11.0/.claude/skills/ui-ux-pro-max/scripts/search.py\" \"bento grid soft organic light modern marketing\" --domain style -n 5)",
+      "Bash(node --check js/main.js)",
+      "Bash(python3 *)",
+      "Bash(node -e ' *)",
+      "Bash(python *)"
     ]
   }
 }
