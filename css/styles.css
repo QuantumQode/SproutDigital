@@ -885,10 +885,10 @@ nav.site-nav.scrolled {
 /* ============ Pricing ============ */
 
 .pricing-section { padding: clamp(72px, 9vw, 120px) 0; }
-.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+.pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; align-items: stretch; }
 .plan-card {
   border-radius: 18px;
-  padding: 40px;
+  padding: 32px 28px;
   border: 1px solid var(--border);
   position: relative;
   background: var(--card);
@@ -899,6 +899,10 @@ nav.site-nav.scrolled {
   background: var(--green);
   border-color: var(--green);
   box-shadow: 0 24px 56px -24px oklch(0.5 0.15 150 / 0.55);
+}
+.plan-card.bundled {
+  background: var(--hover-fill);
+  border-style: dashed;
 }
 .plan-badge {
   position: absolute;
@@ -929,7 +933,7 @@ nav.site-nav.scrolled {
 .plan-feature .check { color: var(--green); display: inline-flex; flex-shrink: 0; }
 .plan-feature .check svg { width: 16px; height: 16px; }
 .plan-card.featured .plan-feature .check { color: white; }
-.plan-cta { margin-top: auto; padding-top: 20px; }
+.plan-cta { margin-top: auto; padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
 .plan-cta a {
   display: block;
   text-align: center;
@@ -942,12 +946,32 @@ nav.site-nav.scrolled {
   transition: transform .2s, background .2s, box-shadow .2s;
 }
 .plan-cta a:hover { background: var(--hover-fill); transform: translateY(-2px); }
+.plan-included {
+  display: block;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 14px 24px;
+  border-radius: 12px;
+  border: 1.5px dashed var(--border-strong);
+  color: var(--muted);
+}
 .plan-card.featured .plan-cta a {
   background: white;
   border-color: white;
   color: oklch(0.5 0.15 150);
 }
 .plan-card.featured .plan-cta a:hover { background: oklch(0.96 0.02 150); }
+.plan-cta a.plan-cta-secondary {
+  border: none;
+  padding: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.plan-cta a.plan-cta-secondary:hover { background: none; transform: none; color: var(--ink); text-decoration: underline; }
+.plan-card.featured .plan-cta a.plan-cta-secondary { background: none; color: oklch(0.94 0.03 150); }
+.plan-card.featured .plan-cta a.plan-cta-secondary:hover { color: white; }
 .pricing-unsure {
   text-align: center;
   margin-top: 12px;

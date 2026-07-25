@@ -45,14 +45,23 @@ const testimonials = [
     quote: 'I finally understand where my marketing money goes. The monthly report shows exactly which ads brought in bookings — no jargon, just numbers.' },
 ];
 
+// stripeLink values are placeholders — replace each with the real Stripe Payment Link URL
+// before go-live (Launch's link must bundle the one-time £200 price with the £29/mo Foundation price).
 const plans = [
-  { name: 'Starter', desc: 'For solo founders launching their first site.', price: '£500', period: 'one-time', featured: false,
-    features: ['5-page website', 'Mobile-optimized design', 'Basic on-page SEO', '30 days of support'] },
+  { name: 'Launch', desc: 'For anyone with an idea who just needs a site live, fast.', price: '£200', period: 'one-time', featured: false,
+    features: ['5-page website', 'Mobile-optimized design', 'Basic on-page SEO', '30 days of support'],
+    note: 'Every Launch build comes with Foundation (£29/mo), so your site actually stays online. See below.',
+    stripeLink: 'STRIPE_LINK_PLACEHOLDER_LAUNCH' },
+  { name: 'Foundation', desc: 'Keeps every Launch site online, secure, and yours.', price: '£29', period: '/month', featured: false, bundled: true,
+    features: ['Domain registration & renewal', 'Hosting & SSL', 'Uptime monitoring & security updates', 'Basic on-page SEO upkeep'],
+    note: 'Included automatically with every Launch build — not sold on its own.' },
   { name: 'Growth', desc: 'For small teams ready to rank and grow.', price: '£350', period: '/month', featured: true,
-    features: ['Everything in Starter', 'Ongoing SEO & content', 'Monthly reporting', 'Email marketing setup'] },
+    features: ['Everything in Foundation', 'Ongoing SEO & content', 'Monthly reporting', 'Email marketing setup'],
+    stripeLink: 'STRIPE_LINK_PLACEHOLDER_GROWTH' },
   { name: 'Scale', desc: 'For businesses investing in full growth.', price: '£750', period: '/month', featured: false,
     features: ['Everything in Growth', 'Google & Meta ads management', 'Conversion rate testing', 'Dedicated strategist'],
-    note: 'Ad spend is paid directly to Google/Meta, on top of this plan. You keep full ownership of your ad accounts and data.' },
+    note: 'Ad spend is paid directly to Google/Meta, on top of this plan. You keep full ownership of your ad accounts and data.',
+    stripeLink: 'STRIPE_LINK_PLACEHOLDER_SCALE' },
 ];
 
 // ---- Helpers ----
@@ -144,8 +153,14 @@ if (processGrid) {
 const pricingGrid = document.getElementById('pricing-grid');
 if (pricingGrid) {
   plans.forEach(pl => {
-    const card = el('div', 'plan-card liftcard' + (pl.featured ? ' featured' : ''));
+    const card = el('div', 'plan-card liftcard' + (pl.featured ? ' featured' : '') + (pl.bundled ? ' bundled' : ''));
     const features = pl.features.map(f => `<div class="plan-feature"><span class="check">${ICONS.check}</span>${f}</div>`).join('');
+    const cta = pl.bundled
+      ? '<div class="plan-cta"><span class="plan-included">Included with every Launch build</span></div>'
+      : `<div class="plan-cta">
+          <a href="${pl.stripeLink}">Buy ${pl.name} now</a>
+          <a class="plan-cta-secondary" href="contact.html?plan=${encodeURIComponent(pl.name)}">Not sure yet? Get a free audit →</a>
+        </div>`;
     card.innerHTML = `
       ${pl.featured ? '<div class="plan-badge">Most popular</div>' : ''}
       <div class="plan-name">${pl.name}</div>
@@ -156,7 +171,7 @@ if (pricingGrid) {
       </div>
       ${pl.note ? `<div class="plan-note">${pl.note}</div>` : ''}
       ${features}
-      <div class="plan-cta"><a href="contact.html?plan=${encodeURIComponent(pl.name)}">Get started with ${pl.name}</a></div>`;
+      ${cta}`;
     pricingGrid.appendChild(card);
   });
 }

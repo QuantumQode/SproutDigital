@@ -28,7 +28,10 @@
       "Bash(IMPECCABLE_CRITIQUE_META='{\"target\":\"index.html\",\"total_score\":23,\"max_score\":32,\"na_heuristics\":\"7,10\",\"p0_count\":1,\"p1_count\":2}' node *)",
       "Bash(echo \"exit code: $?\")",
       "Bash(git -C /Users/pouria/Projects/SproutDigital status --short)",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Skill(impeccable:impeccable)"
     ]
   }
 }
