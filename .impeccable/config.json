@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          "css/styles.css"
+        ],
+        "createdAt": "2026-07-25T14:46:06.200Z",
+        "reason": "User confirmed pre-existing radius values across styles.css are intentional, not drift; DESIGN.md's rounded scale is a curated representative subset, not exhaustive"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "css/styles.css"
+        ],
+        "createdAt": "2026-07-25T14:46:06.226Z",
+        "reason": "User confirmed pre-existing literal colors across styles.css are intentional, not drift; DESIGN.md's palette is a curated representative subset, not exhaustive"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "css/styles.css"
+        ],
+        "createdAt": "2026-07-25T14:46:06.251Z",
+        "reason": "User confirmed pre-existing font-size values across styles.css are intentional, not drift; DESIGN.md's typography ramp is a curated representative subset, not exhaustive"
+      }
+    ]
+  }
+}

@@ -10,8 +10,6 @@ const ICONS = {
 };
 
 // ---- Content data ----
-const logoNames = ['GIAT LTD', 'NinjaPlumbers', 'DiyahAesthetics', 'ShineyPetGrooming'];
-
 const services = [
   { icon: ICONS.layout, title: 'Website design & build', body: 'Modern, fast websites tailored to solo founders and small teams — built to convert, not just look nice.' },
   { icon: ICONS.megaphone, title: 'Google & Meta Ads', body: 'Paid campaigns on Google Search, Facebook, and Instagram that drive clicks from people ready to buy — tracked all the way to revenue.' },
@@ -48,12 +46,13 @@ const testimonials = [
 ];
 
 const plans = [
-  { name: 'Starter', desc: 'For solo founders launching their first site.', price: '$1,200', period: 'one-time', featured: false,
+  { name: 'Starter', desc: 'For solo founders launching their first site.', price: '£500', period: 'one-time', featured: false,
     features: ['5-page website', 'Mobile-optimized design', 'Basic on-page SEO', '30 days of support'] },
-  { name: 'Growth', desc: 'For small teams ready to rank and grow.', price: '$650', period: '/month', featured: true,
+  { name: 'Growth', desc: 'For small teams ready to rank and grow.', price: '£350', period: '/month', featured: true,
     features: ['Everything in Starter', 'Ongoing SEO & content', 'Monthly reporting', 'Email marketing setup'] },
-  { name: 'Scale', desc: 'For businesses investing in full growth.', price: '$1,400', period: '/month', featured: false,
-    features: ['Everything in Growth', 'Google & Meta ads management', 'Conversion rate testing', 'Dedicated strategist'] },
+  { name: 'Scale', desc: 'For businesses investing in full growth.', price: '£750', period: '/month', featured: false,
+    features: ['Everything in Growth', 'Google & Meta ads management', 'Conversion rate testing', 'Dedicated strategist'],
+    note: 'Ad spend is paid directly to Google/Meta, on top of this plan. You keep full ownership of your ad accounts and data.' },
 ];
 
 // ---- Helpers ----
@@ -89,16 +88,6 @@ const mockPageInner = `
     <div class="mock-cta"></div>
   </div>
   <div class="mock-cards"><i></i><i></i><i></i></div>`;
-
-// ---- Logos marquee ----
-const logosRow = document.getElementById('logos-row');
-if (logosRow) {
-  const half = logoNames.map(n => `<span class="logo-item">${n}</span>`).join('');
-  logosRow.innerHTML = `
-    <div class="logos-marquee"><div class="logos-track">
-      <div class="logos-half">${half}</div><div class="logos-half" aria-hidden="true">${half}</div>
-    </div></div>`;
-}
 
 // ---- Services grid ----
 const servicesGrid = document.getElementById('services-grid');
@@ -165,6 +154,7 @@ if (pricingGrid) {
         <div class="price-num">${pl.price}</div>
         <div class="price-period">${pl.period}</div>
       </div>
+      ${pl.note ? `<div class="plan-note">${pl.note}</div>` : ''}
       ${features}
       <div class="plan-cta"><a href="contact.html?plan=${encodeURIComponent(pl.name)}">Get started with ${pl.name}</a></div>`;
     pricingGrid.appendChild(card);
@@ -291,16 +281,18 @@ if (mobileCtaBar) document.body.classList.add('has-cta-bar');
 
 // ---- Rotating hero word (home only) ----
 const wordEl = document.getElementById('rotating-word');
-if (wordEl && !reducedMotion) {
+const wordInner = wordEl && wordEl.querySelector('.rotating-word-inner');
+if (wordEl && wordInner && !reducedMotion) {
   const words = ['grows', 'sells', 'ranks', 'converts', 'advertises'];
   let wordIdx = 0;
 
-  // Reserve width for the widest word so the headline doesn't reflow as words change
+  // Reserve width for the widest word on the outer wrapper so the headline doesn't
+  // reflow as words change, while the inner span (and its underline) stays sized to the actual word.
   const measurer = document.createElement('span');
   measurer.style.cssText = 'position:absolute; visibility:hidden; white-space:nowrap; left:-9999px; top:0;';
   document.body.appendChild(measurer);
   const lockWordWidth = () => {
-    measurer.style.font = getComputedStyle(wordEl).font;
+    measurer.style.font = getComputedStyle(wordInner).font;
     let maxWidth = 0;
     words.forEach(w => {
       measurer.textContent = w;
@@ -315,10 +307,10 @@ if (wordEl && !reducedMotion) {
   setInterval(() => {
     if (document.hidden) return;
     wordIdx = (wordIdx + 1) % words.length;
-    wordEl.style.animation = 'none';
-    wordEl.textContent = words[wordIdx];
-    void wordEl.offsetWidth;
-    wordEl.style.animation = 'wordIn 0.5s cubic-bezier(.2,.8,.2,1)';
+    wordInner.style.animation = 'none';
+    wordInner.textContent = words[wordIdx];
+    void wordInner.offsetWidth;
+    wordInner.style.animation = 'wordIn 0.5s cubic-bezier(.2,.8,.2,1)';
   }, 2600);
 }
 

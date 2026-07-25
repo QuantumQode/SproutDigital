@@ -21,7 +21,14 @@
       "Bash(node --check js/main.js)",
       "Bash(python3 *)",
       "Bash(node -e ' *)",
-      "Bash(python *)"
+      "Bash(python *)",
+      "Bash(node *)",
+      "Bash(grep -n \"£\\\\|\\\\\\\\$\\\\|per month\\\\|/mo\\\\|price\" pages/pricing.html)",
+      "Bash(echo \"EXIT_CODE:$?\")",
+      "Bash(IMPECCABLE_CRITIQUE_META='{\"target\":\"index.html\",\"total_score\":23,\"max_score\":32,\"na_heuristics\":\"7,10\",\"p0_count\":1,\"p1_count\":2}' node *)",
+      "Bash(echo \"exit code: $?\")",
+      "Bash(git -C /Users/pouria/Projects/SproutDigital status --short)",
+      "Bash(echo \"exit: $?\")"
     ]
   }
 }
