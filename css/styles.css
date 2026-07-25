@@ -46,7 +46,14 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--bg);
+  /* Ambient light pools down the whole document so mid/bottom sections
+     stay inside the greenhouse instead of falling onto flat canvas */
+  background:
+    radial-gradient(ellipse 1000px 640px at 14% 30%, light-dark(oklch(0.93 0.05 150 / 0.55), oklch(0.33 0.06 150 / 0.5)), transparent 68%),
+    radial-gradient(ellipse 900px 600px at 88% 52%, light-dark(oklch(0.95 0.045 90 / 0.5), oklch(0.31 0.05 90 / 0.42)), transparent 68%),
+    radial-gradient(ellipse 1100px 700px at 8% 78%, light-dark(oklch(0.93 0.05 150 / 0.5), oklch(0.33 0.06 150 / 0.45)), transparent 68%),
+    radial-gradient(ellipse 900px 620px at 86% 97%, light-dark(oklch(0.94 0.045 130 / 0.5), oklch(0.32 0.055 150 / 0.45)), transparent 68%),
+    var(--bg);
   font-family: 'Figtree', sans-serif;
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
@@ -264,6 +271,44 @@ nav.site-nav.scrolled {
   background: radial-gradient(circle, oklch(0.85 0.08 90 / 0.35), transparent 65%);
   animation: blobFloat 11s ease-in-out infinite reverse;
 }
+
+/* ============ Ambient section decor (mid/bottom of pages) ============ */
+
+/* Sections that host blobs/bubbles below the hero */
+.deco-scope { position: relative; isolation: isolate; }
+.deco-scope .blob, .bubble { z-index: -1; }
+
+.blob-c {
+  top: -60px; left: -200px;
+  width: 440px; height: 440px;
+  background: radial-gradient(circle, light-dark(oklch(0.85 0.1 150 / 0.32), oklch(0.45 0.12 150 / 0.3)), transparent 65%);
+  animation: blobFloat 13s ease-in-out infinite reverse;
+}
+.blob-d {
+  bottom: -80px; right: -160px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, light-dark(oklch(0.87 0.08 90 / 0.3), oklch(0.44 0.09 90 / 0.24)), transparent 65%);
+  animation: blobFloat 15s ease-in-out infinite;
+}
+
+/* Glassy greenhouse bubbles: bordered circles with a light catch, slow drift */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  border: 1.5px solid light-dark(oklch(0.65 0.12 150 / 0.35), oklch(0.7 0.12 150 / 0.3));
+  background:
+    radial-gradient(circle at 32% 28%, light-dark(oklch(1 0 0 / 0.9), oklch(0.9 0.05 150 / 0.28)), transparent 45%),
+    light-dark(oklch(0.95 0.03 150 / 0.5), oklch(0.34 0.06 150 / 0.3));
+  box-shadow:
+    inset -6px -8px 14px oklch(from var(--shadow-tint) l c h / 0.12),
+    0 10px 20px -12px oklch(from var(--shadow-tint) l c h / 0.25);
+  animation: bubbleDrift 11s ease-in-out infinite;
+}
+.bubble-a { width: 44px; height: 44px; top: 14%; right: 4%; }
+.bubble-b { width: 20px; height: 20px; top: 32%; right: 11%; animation-duration: 14s; animation-delay: -4s; animation-direction: reverse; }
+.bubble-c { width: 30px; height: 30px; bottom: 18%; left: 3%; animation-duration: 12s; animation-delay: -7s; }
+.bubble-d { width: 14px; height: 14px; bottom: 34%; left: 9%; animation-duration: 9s; animation-delay: -2s; animation-direction: reverse; }
 .hero-copy { flex: 1.1; position: relative; z-index: 1; }
 .eyebrow {
   display: inline-flex;
@@ -1036,7 +1081,22 @@ nav.site-nav.scrolled {
   padding: clamp(56px, 7vw, 96px) clamp(24px, 4vw, 48px);
   position: relative;
   overflow: hidden;
+  isolation: isolate;
 }
+.cta-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(oklch(0.55 0.06 150 / 0.25) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(ellipse 45% 60% at 86% 18%, black, transparent 75%);
+  mask-image: radial-gradient(ellipse 45% 60% at 86% 18%, black, transparent 75%);
+  pointer-events: none;
+}
+.cta-box .bubble-a { top: auto; bottom: -16px; right: 6%; width: 58px; height: 58px; }
+.cta-box .bubble-c { bottom: auto; top: 22px; left: 5%; }
+.cta-box .bubble-d { bottom: 24%; left: 12%; }
 .cta-box h2 { font-size: clamp(30px, 3vw + 6px, 44px); font-weight: 700; letter-spacing: -0.01em; margin: 0 0 20px; }
 .cta-box p { font-size: 18px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 32px; }
 .cta-proof {
@@ -1256,6 +1316,11 @@ nav.site-nav.scrolled {
   0%, 100% { translate: 0 0; scale: 1; }
   33% { translate: 30px -24px; scale: 1.08; }
   66% { translate: -20px 18px; scale: 0.95; }
+}
+@keyframes bubbleDrift {
+  0%, 100% { translate: 0 0; }
+  40% { translate: 10px -22px; }
+  70% { translate: -6px -8px; }
 }
 @keyframes cardFloat {
   0%, 100% { transform: translateY(0) rotate(-2deg); }
