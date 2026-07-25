@@ -100,12 +100,10 @@
       </div>
 
       <div class="contact-card">
-        <form id="contact-form" novalidate>
-          <!-- Web3Forms: replace with your access key from https://web3forms.com -->
-          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
-          <input type="hidden" name="subject" value="New enquiry from sproutdigital website">
-          <!-- Honeypot spam trap: hidden from humans, bots fill it in -->
-          <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off">
+        <form id="contact-form" action="https://formspree.io/f/mzdnkjwd" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="New enquiry from sproutdigital website">
+          <!-- Honeypot spam trap: hidden from humans, bots fill it in. Formspree drops submissions where _gotcha is filled. -->
+          <input type="checkbox" name="_gotcha" style="display:none;" tabindex="-1" autocomplete="off">
 
           <div class="form-row">
             <div class="field">

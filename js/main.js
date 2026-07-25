@@ -406,7 +406,7 @@ if (contactForm) {
     if (err && !valid) err.textContent = errorMessages[input.name] || 'Please check this field.';
     return valid;
   };
-  contactForm.querySelectorAll('input:not([type="hidden"]):not([name="botcheck"]), select, textarea').forEach(input => {
+  contactForm.querySelectorAll('input:not([type="hidden"]):not([name="_gotcha"]), select, textarea').forEach(input => {
     input.addEventListener('blur', () => validateField(input));
     input.addEventListener('input', () => {
       if (input.closest('.field')?.classList.contains('invalid')) validateField(input);
@@ -420,7 +420,7 @@ if (contactForm) {
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const inputs = [...contactForm.querySelectorAll('input:not([type="hidden"]):not([name="botcheck"]), select, textarea')];
+    const inputs = [...contactForm.querySelectorAll('input:not([type="hidden"]):not([name="_gotcha"]), select, textarea')];
     const firstInvalid = inputs.find(i => !validateField(i));
     if (firstInvalid) {
       firstInvalid.focus();
@@ -432,17 +432,18 @@ if (contactForm) {
     submitBtn.textContent = 'Sending…';
 
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch(contactForm.action, {
         method: 'POST',
         body: new FormData(contactForm),
         headers: { 'Accept': 'application/json' },
       });
-      const data = await res.json();
-      if (data.success) {
+      if (res.ok) {
         card.classList.add('sent');
         card.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
       } else {
-        throw new Error(data.message || 'Submission failed');
+        const data = await res.json().catch(() => ({}));
+        const message = data?.errors?.map(e => e.message).join(', ');
+        throw new Error(message || 'Submission failed');
       }
     } catch (err) {
       statusEl.className = 'form-status error';
