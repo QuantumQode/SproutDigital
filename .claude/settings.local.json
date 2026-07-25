@@ -31,7 +31,12 @@
       "Bash(echo \"exit: $?\")",
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
-      "Skill(impeccable:impeccable)"
+      "Skill(impeccable:impeccable)",
+      "Bash(cp /Users/pouria/Projects/SproutDigital/PRODUCT.md PRODUCT.md)",
+      "Bash(cp /Users/pouria/Projects/SproutDigital/css/styles.css css/styles.css)",
+      "Bash(cp /Users/pouria/Projects/SproutDigital/js/main.js js/main.js)",
+      "Bash(cp /Users/pouria/Projects/SproutDigital/pages/contact.html pages/contact.html)",
+      "Bash(cp /Users/pouria/Projects/SproutDigital/pages/thank-you.html pages/thank-you.html)"
     ]
   }
 }
