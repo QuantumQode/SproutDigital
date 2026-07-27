@@ -184,3 +184,60 @@ describe('clean URL structure', () => {
       'thank-you is orphaned; no stub needed');
   });
 });
+
+describe('link integrity', () => {
+  const ALL = ['index.html', '404.html', 'services/index.html', 'work/index.html',
+               'pricing/index.html', 'contact/index.html', 'thank-you/index.html'];
+
+  test('every internal link is root-relative', () => {
+    for (const f of ALL) {
+      for (const href of internalLinks(readPage(f))) {
+        assert.ok(href.startsWith('/'), `${f}: "${href}" is not root-relative`);
+      }
+    }
+  });
+
+  test('no internal link points at an old /pages/ path', () => {
+    for (const f of ALL) {
+      for (const href of internalLinks(readPage(f))) {
+        assert.ok(!/^\/pages\//.test(href), `${f}: "${href}" targets old /pages/ path`);
+      }
+    }
+  });
+
+  test('every internal link resolves to a file on disk', () => {
+    for (const f of ALL) {
+      for (const href of internalLinks(readPage(f))) {
+        const path = href.split(/[?#]/)[0];
+        const target = path.endsWith('/') ? `${path}index.html` : path;
+        assert.ok(pageExists(target.replace(/^\//, '')),
+          `${f}: "${href}" resolves to missing file ${target}`);
+      }
+    }
+  });
+
+  test('each page declares the correct canonical and og:url', () => {
+    for (const { url, file } of PAGES) {
+      const html = readPage(file);
+      const expected = `https://sproutdigital.tech${url}`;
+      assert.ok(html.includes(`rel="canonical" href="${expected}"`),
+        `${file}: wrong or missing canonical (want ${expected})`);
+      assert.ok(html.includes(`property="og:url" content="${expected}"`),
+        `${file}: wrong or missing og:url (want ${expected})`);
+    }
+  });
+});
+
+describe('sitemap', () => {
+  test('lists exactly the canonical URLs', () => {
+    const xml = readPage('sitemap.xml');
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]).sort();
+    const want = PAGES.map(p => `https://sproutdigital.tech${p.url}`).sort();
+    assert.deepEqual(locs, want);
+  });
+
+  test('contains no .html URLs', () => {
+    assert.ok(!readPage('sitemap.xml').includes('.html'),
+      'sitemap still references .html paths');
+  });
+});
