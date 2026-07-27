@@ -130,11 +130,21 @@ hero tilt, scroll reveal, and the contact form.
 
 Expected: **456 lines → roughly 240.**
 
-### H1 fix
+### H1 — no change required (corrected 2026-07-27)
 
-`index.html`'s H1 is `"A website that "` followed by a JS-supplied rotating word, so crawlers read a
-dangling sentence. Bake a real default word into the markup; JS rotates onward from that starting
-value rather than populating an empty element.
+An earlier draft of this spec claimed `index.html`'s H1 was a dangling `"A website that "` awaiting
+a JS-supplied word. **That was wrong.** It came from a truncating grep (`<h1[^>]*>[^<]*`) that
+stopped at the first nested `<span>` and hid the rest of the line.
+
+The markup at `index.html:92` is already correct and fully crawlable:
+
+```html
+<h1>A website that <span id="rotating-word"><span class="rotating-word-inner">grows</span></span> for your business.</h1>
+```
+
+Confirmed against production with JavaScript disabled — `curl https://sproutdigital.tech/` returns
+the complete sentence. The rotation logic mutates `textContent` of an already-populated span, so
+there is no empty-element problem. **No H1 work is in scope.**
 
 ## Phase B — clean URLs
 
