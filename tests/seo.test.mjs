@@ -58,3 +58,36 @@ describe('content is present in raw HTML (no JS execution)', () => {
     }
   });
 });
+
+describe('main.js contains behaviour only, not content', () => {
+  test('content data arrays are gone', () => {
+    const js = readPage('js/main.js');
+    for (const marker of ['const services =', 'const projects =', 'const steps =',
+                          'const testimonials =', 'const plans =', 'const ICONS =']) {
+      assert.ok(!js.includes(marker), `main.js still defines: ${marker}`);
+    }
+  });
+
+  test('renderer-only helpers are gone', () => {
+    const js = readPage('js/main.js');
+    for (const helper of ['function el(', 'function starsRow(',
+                          'function browserMockHTML(', 'const mockPageInner',
+                          'const pagePrefix', 'const inPagesDir']) {
+      assert.ok(!js.includes(helper), `main.js still defines: ${helper}`);
+    }
+  });
+
+  test('ticker renderer is retained (spec D3)', () => {
+    const js = readPage('js/main.js');
+    assert.ok(js.includes('tickerKeywords'), 'ticker data was removed');
+    assert.ok(js.includes("getElementById('ticker-track')"), 'ticker renderer was removed');
+  });
+
+  test('interactive behaviour is retained', () => {
+    const js = readPage('js/main.js');
+    for (const kept of ['animateCounters', 'onInView', "getElementById('nav-toggle')",
+                        "getElementById('rotating-word')", "getElementById('contact-form')"]) {
+      assert.ok(js.includes(kept), `main.js lost behaviour: ${kept}`);
+    }
+  });
+});

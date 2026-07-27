@@ -1,180 +1,13 @@
-// ---- Inline SVG icons (Lucide-style, stroke = currentColor) ----
-const ICONS = {
-  layout: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>',
-  megaphone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>',
-  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
-  trendingUp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
-  star: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
-  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>',
-  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>',
-};
-
 // ---- Content data ----
-const services = [
-  { icon: ICONS.layout, title: 'Website design & build', body: 'Modern, fast websites tailored to solo founders and small teams — built to convert, not just look nice.' },
-  { icon: ICONS.megaphone, title: 'Google & Meta Ads', body: 'Paid campaigns on Google Search, Facebook, and Instagram that drive clicks from people ready to buy — tracked all the way to revenue.' },
-  { icon: ICONS.search, title: 'SEO', body: 'Technical fixes, on-page optimization, and content that gets you found on Google for the searches that matter.' },
-];
-
-const projects = [
-  { tag: 'Corporate', name: 'GIAT LTD', url: 'giatltd.com', accent: 'oklch(0.55 0.14 250)', tintA: 'oklch(0.94 0.03 250)', tintB: 'oklch(0.97 0.015 230)', result: '+3.2x return on ad spend' },
-  { tag: 'Trades', name: 'NinjaPlumbers', url: 'ninjaplumbers.com', accent: 'oklch(0.62 0.16 45)', tintA: 'oklch(0.95 0.04 60)', tintB: 'oklch(0.97 0.02 45)', result: '52 leads/mo from Google Ads' },
-  { tag: 'Beauty', name: 'DiyahAesthetics', url: 'diyahaesthetics.com', accent: 'oklch(0.62 0.16 350)', tintA: 'oklch(0.95 0.035 340)', tintB: 'oklch(0.97 0.02 320)', result: '2.4x bookings via Meta Ads' },
-  { tag: 'Pet Care', name: 'ShineyPetGrooming', url: 'shineypetgrooming.com', accent: 'oklch(0.6 0.13 175)', tintA: 'oklch(0.94 0.035 170)', tintB: 'oklch(0.97 0.02 160)', result: '+180% organic traffic' },
-];
-
-const steps = [
-  { num: '01', title: 'Free audit', body: 'We review your current site, rankings, and ad accounts, and share what’s holding you back.' },
-  { num: '02', title: 'Design & build', body: 'A fresh, on-brand site designed around your customers and goals.' },
-  { num: '03', title: 'Launch & optimize', body: 'We launch the site and your first ad campaigns, then tune targeting, SEO, and speed.' },
-  { num: '04', title: 'Grow', body: 'Ongoing ads management and reporting keep clicks, leads, and revenue climbing.' },
-];
-
 const tickerKeywords = [
   'plumber near me', 'best hair salon', 'emergency electrician', 'dog groomer open now',
   'accountant for small business', 'physio near me', 'wedding photographer prices',
   'landscaping quotes', 'personal trainer', 'cafe open late',
 ];
 
-const testimonials = [
-  { color: 't-green', initials: 'JT', name: 'James T.', role: 'NinjaPlumbers', metric: '52 leads/month',
-    quote: 'Within a month of the Google Ads going live, we were booked solid two weeks out. The phone genuinely doesn’t stop ringing on Mondays now.' },
-  { color: 't-amber', initials: 'DA', name: 'Diyah A.', role: 'DiyahAesthetics', metric: '2.4x bookings',
-    quote: 'The Instagram campaigns paid for themselves in the first week. New clients tell us the ads are what got them through the door.' },
-  { color: 't-blue', initials: 'SG', name: 'Sarah G.', role: 'ShineyPetGrooming', metric: '+180% traffic',
-    quote: 'I finally understand where my marketing money goes. The monthly report shows exactly which ads brought in bookings — no jargon, just numbers.' },
-];
-
-// stripeLink values are placeholders — replace each with the real Stripe Payment Link URL
-// before go-live (Launch's link must bundle the one-time £200 price with the £29/mo Foundation price).
-const plans = [
-  { name: 'Launch', desc: 'For anyone with an idea who just needs a site live, fast.', price: '£200', period: 'one-time', featured: false,
-    features: ['5-page website', 'Mobile-optimized design', 'Basic on-page SEO', '30 days of support'],
-    note: 'Every Launch build comes with Foundation (£29/mo), so your site actually stays online. See below.',
-    stripeLink: 'STRIPE_LINK_PLACEHOLDER_LAUNCH' },
-  { name: 'Foundation', desc: 'Keeps every Launch site online, secure, and yours.', price: '£29', period: '/month', featured: false, bundled: true,
-    features: ['Domain registration & renewal', 'Hosting & SSL', 'Uptime monitoring & security updates', 'Basic on-page SEO upkeep'],
-    note: 'Included automatically with every Launch build — not sold on its own.' },
-  { name: 'Growth', desc: 'For small teams ready to rank and grow.', price: '£350', period: '/month', featured: true,
-    features: ['Everything in Foundation', 'Ongoing SEO & content', 'Monthly reporting', 'Email marketing setup'],
-    stripeLink: 'STRIPE_LINK_PLACEHOLDER_GROWTH' },
-  { name: 'Scale', desc: 'For businesses investing in full growth.', price: '£750', period: '/month', featured: false,
-    features: ['Everything in Growth', 'Google & Meta ads management', 'Conversion rate testing', 'Dedicated strategist'],
-    note: 'Ad spend is paid directly to Google/Meta, on top of this plan. You keep full ownership of your ad accounts and data.',
-    stripeLink: 'STRIPE_LINK_PLACEHOLDER_SCALE' },
-];
-
 // ---- Helpers ----
-const inPagesDir = /\/pages\//.test(location.pathname);
-const pagePrefix = inPagesDir ? '' : 'pages/';
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const fineHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-function el(tag, className, html) {
-  const e = document.createElement(tag);
-  if (className) e.className = className;
-  if (html !== undefined) e.innerHTML = html;
-  return e;
-}
-
-function starsRow(count = 5) {
-  return `<div class="testimonial-stars" role="img" aria-label="Rated ${count} out of 5 stars">${ICONS.star.repeat(count)}</div>`;
-}
-
-function browserMockHTML(url, extraPageHTML) {
-  return `
-    <div class="browser-mock" aria-hidden="true">
-      <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-url">${url}</span></div>
-      <div class="mock-page">${extraPageHTML}</div>
-    </div>`;
-}
-
-const mockPageInner = `
-  <div class="mock-nav"><span class="mock-logo"></span><span class="mock-links"><i></i><i></i><i></i></span><span class="mock-btn"></span></div>
-  <div class="mock-hero">
-    <div class="mock-h1"></div><div class="mock-h1 short"></div>
-    <div class="mock-text"></div><div class="mock-text short"></div>
-    <div class="mock-cta"></div>
-  </div>
-  <div class="mock-cards"><i></i><i></i><i></i></div>`;
-
-// ---- Services grid ----
-const servicesGrid = document.getElementById('services-grid');
-if (servicesGrid) {
-  services.forEach(s => {
-    const card = el('article', 'service-card liftcard');
-    card.innerHTML = `
-      <div class="icon-wrap">${s.icon}</div>
-      <h3 class="title">${s.title}</h3>
-      <div class="body">${s.body}</div>`;
-    servicesGrid.appendChild(card);
-  });
-}
-
-// ---- Work grid (CSS browser-mock previews, cards link to contact) ----
-const workGrid = document.getElementById('work-grid');
-if (workGrid) {
-  const limit = parseInt(workGrid.dataset.limit, 10) || projects.length;
-  projects.slice(0, limit).forEach(p => {
-    const card = el('a', 'work-card liftcard');
-    card.href = `${pagePrefix}contact.html?project=${encodeURIComponent(p.name)}`;
-    card.setAttribute('aria-label', `${p.name} — ${p.result}. Start a project like this.`);
-    card.style.setProperty('--wa', p.accent);
-    card.style.setProperty('--wt-a', p.tintA);
-    card.style.setProperty('--wt-b', p.tintB);
-    card.innerHTML = `
-      <div class="work-thumb">
-        ${browserMockHTML(p.url, mockPageInner)}
-        <div class="work-view"><span>Get results like this →</span></div>
-      </div>
-      <div class="work-body">
-        <div class="work-tag">${p.tag}</div>
-        <div class="work-name">${p.name}</div>
-        <div class="work-result">${ICONS.trendingUp} ${p.result}</div>
-      </div>`;
-    workGrid.appendChild(card);
-  });
-}
-
-// ---- Process grid ----
-const processGrid = document.getElementById('process-grid');
-if (processGrid) {
-  steps.forEach(st => {
-    const card = el('div', 'step-card');
-    card.innerHTML = `
-      <div class="step-num">${st.num}</div>
-      <div class="step-title">${st.title}</div>
-      <div class="step-body">${st.body}</div>`;
-    processGrid.appendChild(card);
-  });
-}
-
-// ---- Pricing grid ----
-const pricingGrid = document.getElementById('pricing-grid');
-if (pricingGrid) {
-  plans.forEach(pl => {
-    const card = el('div', 'plan-card liftcard' + (pl.featured ? ' featured' : '') + (pl.bundled ? ' bundled' : ''));
-    const features = pl.features.map(f => `<div class="plan-feature"><span class="check">${ICONS.check}</span>${f}</div>`).join('');
-    const cta = pl.bundled
-      ? '<div class="plan-cta"><span class="plan-included">Included with every Launch build</span></div>'
-      : `<div class="plan-cta">
-          <a href="${pl.stripeLink}">Buy ${pl.name} now</a>
-          <a class="plan-cta-secondary" href="contact.html?plan=${encodeURIComponent(pl.name)}">Not sure yet? Get a free audit →</a>
-        </div>`;
-    card.innerHTML = `
-      ${pl.featured ? '<div class="plan-badge">Most popular</div>' : ''}
-      <div class="plan-name">${pl.name}</div>
-      <div class="plan-desc">${pl.desc}</div>
-      <div class="plan-price">
-        <div class="price-num">${pl.price}</div>
-        <div class="price-period">${pl.period}</div>
-      </div>
-      ${pl.note ? `<div class="plan-note">${pl.note}</div>` : ''}
-      ${features}
-      ${cta}`;
-    pricingGrid.appendChild(card);
-  });
-}
 
 // ---- Keyword ticker (inside ads box) ----
 const tickerTrack = document.getElementById('ticker-track');
@@ -183,26 +16,6 @@ if (tickerTrack) {
     .map(k => `<span class="ticker-item">${k}</span><span class="ticker-sep">●</span>`)
     .join('');
   tickerTrack.innerHTML = `<div class="ticker-half">${half}</div><div class="ticker-half" aria-hidden="true">${half}</div>`;
-}
-
-// ---- Testimonials ----
-const testimonialsGrid = document.getElementById('testimonials-grid');
-if (testimonialsGrid) {
-  testimonials.forEach(t => {
-    const card = el('article', `testimonial-card liftcard ${t.color}`);
-    card.innerHTML = `
-      ${starsRow()}
-      <p class="testimonial-quote">“${t.quote}”</p>
-      <div class="testimonial-metric">${ICONS.trendingUp} ${t.metric}</div>
-      <div class="testimonial-who">
-        <div class="testimonial-avatar" aria-hidden="true">${t.initials}</div>
-        <div>
-          <div class="testimonial-name">${t.name}</div>
-          <div class="testimonial-role">${t.role}</div>
-        </div>
-      </div>`;
-    testimonialsGrid.appendChild(card);
-  });
 }
 
 // ---- Count-up numbers (bento + ads dash) ----
