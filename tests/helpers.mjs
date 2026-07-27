@@ -28,9 +28,9 @@ export function jsonLdBlocks(html) {
 
 /** Every page that should be reachable and indexable, by final URL path. */
 export const PAGES = [
-  { url: '/',            file: 'index.html' },
-  { url: '/services/',   file: 'services/index.html' },
-  { url: '/work/',       file: 'work/index.html' },
-  { url: '/pricing/',    file: 'pricing/index.html' },
-  { url: '/contact/',    file: 'contact/index.html' },
+  { url: '/',                       file: 'index.html' },
+  { url: '/pages/services.html',    file: 'pages/services.html' },
+  { url: '/pages/work.html',        file: 'pages/work.html' },
+  { url: '/pages/pricing.html',     file: 'pages/pricing.html' },
+  { url: '/pages/contact.html',     file: 'pages/contact.html' },
 ];
