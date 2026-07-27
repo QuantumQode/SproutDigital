@@ -1,0 +1,8 @@
+# Keep internal files in the repo but out of the published site.
+# GitHub Pages runs Jekyll, which was rendering these to .html on the live domain.
+exclude:
+  - docs
+  - tests
+  - PRODUCT.md
+  - DESIGN.md
+  - README.md

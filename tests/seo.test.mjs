@@ -171,8 +171,11 @@ describe('clean URL structure', () => {
       assert.ok(html.includes(`href="https://sproutdigital.tech${url}"`),
         `${oldPath} missing canonical to ${url}`);
       assert.match(html, /content="0;\s*url=/, `${oldPath} missing meta refresh`);
-      assert.ok(html.includes('name="robots"') && html.includes('noindex'),
-        `${oldPath} stub must be noindex`);
+      // Deliberately NOT noindex. Combining noindex with rel=canonical lets the
+      // noindex propagate across the canonical group and deindex the target —
+      // and these old paths are the ones currently in Google's index.
+      assert.ok(!html.includes('noindex'),
+        `${oldPath} must not be noindex: it would propagate to the canonical target`);
       assert.ok(html.length < 1200, `${oldPath} should be a stub, not a full page`);
     }
   });
