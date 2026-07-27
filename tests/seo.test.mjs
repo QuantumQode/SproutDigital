@@ -241,3 +241,60 @@ describe('sitemap', () => {
       'sitemap still references .html paths');
   });
 });
+
+describe('structured data', () => {
+  const typesIn = (file) => jsonLdBlocks(readPage(file)).map(b => b['@type']);
+
+  test('every JSON-LD block parses and declares a schema.org context', () => {
+    for (const { file } of PAGES) {
+      const blocks = jsonLdBlocks(readPage(file));   // throws on malformed JSON
+      assert.ok(blocks.length > 0, `${file} has no JSON-LD`);
+      for (const b of blocks) {
+        assert.match(b['@context'], /schema\.org/, `${file}: bad @context`);
+      }
+    }
+  });
+
+  test('expected types are present per page', () => {
+    assert.ok(typesIn('index.html').includes('ProfessionalService'));
+    assert.ok(typesIn('services/index.html').includes('Service'));
+    assert.ok(typesIn('pricing/index.html').includes('FAQPage'));
+    assert.ok(typesIn('pricing/index.html').includes('OfferCatalog'));
+    assert.ok(typesIn('work/index.html').includes('ItemList'));
+    assert.ok(typesIn('contact/index.html').includes('ContactPage'));
+  });
+
+  test('every non-home page has a BreadcrumbList', () => {
+    for (const { file } of PAGES.filter(p => p.url !== '/')) {
+      assert.ok(typesIn(file).includes('BreadcrumbList'), `${file} missing BreadcrumbList`);
+    }
+  });
+
+  test('FAQPage covers all five on-page questions', () => {
+    const html = readPage('pricing/index.html');
+    const faq = jsonLdBlocks(html).find(b => b['@type'] === 'FAQPage');
+    const summaries = [...html.matchAll(/<summary>([^<]+)</g)].map(m => m[1].trim());
+    assert.equal(faq.mainEntity.length, summaries.length,
+      'FAQPage entry count must match the <summary> count on the page');
+    for (const q of summaries) {
+      assert.ok(faq.mainEntity.some(e => e.name === q), `FAQ schema missing: "${q}"`);
+    }
+  });
+
+  test('OfferCatalog covers all four plans with correct prices', () => {
+    const catalog = jsonLdBlocks(readPage('pricing/index.html'))
+      .find(b => b['@type'] === 'OfferCatalog');
+    const byName = Object.fromEntries(
+      catalog.itemListElement.map(o => [o.itemOffered.name, o.price]));
+    assert.deepEqual(byName,
+      { Launch: '200', Foundation: '29', Growth: '350', Scale: '750' });
+  });
+
+  test('no self-serving review markup (spec constraint)', () => {
+    for (const { file } of PAGES) {
+      const raw = readPage(file);
+      assert.ok(!raw.includes('"AggregateRating"') && !raw.includes('"@type": "Review"'),
+        `${file}: review markup is ineligible for rich results and risks a manual action`);
+    }
+  });
+});
