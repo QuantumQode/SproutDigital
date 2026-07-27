@@ -4,21 +4,21 @@ import { readPage, pageExists, internalLinks, jsonLdBlocks, PAGES, isInternalHre
 
 describe('content is present in raw HTML (no JS execution)', () => {
   test('pricing page states every plan price', () => {
-    const html = readPage('pages/pricing.html');
+    const html = readPage('pricing/index.html');
     for (const price of ['£200', '£29', '£350', '£750']) {
       assert.ok(html.includes(price), `missing price ${price}`);
     }
   });
 
   test('pricing page names every plan', () => {
-    const html = readPage('pages/pricing.html');
+    const html = readPage('pricing/index.html');
     for (const name of ['Launch', 'Foundation', 'Growth', 'Scale']) {
       assert.ok(html.includes(name), `missing plan ${name}`);
     }
   });
 
   test('services copy appears on both homepage and services page', () => {
-    for (const file of ['index.html', 'pages/services.html']) {
+    for (const file of ['index.html', 'services/index.html']) {
       const html = readPage(file);
       for (const title of ['Website design & build', 'Google &amp; Meta Ads', 'SEO']) {
         assert.ok(html.includes(title), `${file} missing service "${title}"`);
@@ -35,7 +35,7 @@ describe('content is present in raw HTML (no JS execution)', () => {
 
   test('work pages contain case studies', () => {
     const home = readPage('index.html');
-    const work = readPage('pages/work.html');
+    const work = readPage('work/index.html');
     // Homepage shows the first three only (data-limit="3").
     for (const name of ['GIAT LTD', 'NinjaPlumbers', 'DiyahAesthetics']) {
       assert.ok(home.includes(name), `homepage missing ${name}`);
@@ -52,7 +52,7 @@ describe('content is present in raw HTML (no JS execution)', () => {
   });
 
   test('services page contains all four process steps', () => {
-    const html = readPage('pages/services.html');
+    const html = readPage('services/index.html');
     for (const step of ['Free audit', 'Design &amp; build', 'Launch &amp; optimize', 'Grow']) {
       assert.ok(html.includes(step), `missing step "${step}"`);
     }
@@ -94,6 +94,9 @@ describe('main.js contains behaviour only, not content', () => {
 
 describe('no broken checkout links', () => {
   const FILES = ['index.html', '404.html', 'js/main.js',
+                 'services/index.html', 'work/index.html',
+                 'pricing/index.html', 'contact/index.html',
+                 'thank-you/index.html',
                  'pages/services.html', 'pages/work.html',
                  'pages/pricing.html', 'pages/contact.html'];
 
@@ -105,7 +108,7 @@ describe('no broken checkout links', () => {
   });
 
   test('pricing CTAs target the contact page with a plan param', () => {
-    const html = readPage('pages/pricing.html');
+    const html = readPage('pricing/index.html');
     for (const plan of ['Launch', 'Growth', 'Scale']) {
       assert.ok(html.includes(`/contact/?plan=${plan}`), `missing CTA for ${plan}`);
     }
@@ -144,5 +147,40 @@ describe('no broken checkout links', () => {
       assert.equal(nofollowInternal.length, 0,
         `${f} has nofollow on internal link(s): ${nofollowInternal.join(', ')}`);
     }
+  });
+});
+
+describe('clean URL structure', () => {
+  const MOVED = [
+    ['pages/services.html', 'services/index.html', '/services/'],
+    ['pages/work.html',     'work/index.html',     '/work/'],
+    ['pages/pricing.html',  'pricing/index.html',  '/pricing/'],
+    ['pages/contact.html',  'contact/index.html',  '/contact/'],
+  ];
+
+  test('each page exists at its new path', () => {
+    for (const [, newPath] of MOVED) {
+      assert.ok(pageExists(newPath), `missing ${newPath}`);
+    }
+    assert.ok(pageExists('thank-you/index.html'), 'missing thank-you/index.html');
+  });
+
+  test('old paths keep a canonical + meta-refresh stub', () => {
+    for (const [oldPath, , url] of MOVED) {
+      const html = readPage(oldPath);
+      assert.ok(html.includes(`href="https://sproutdigital.tech${url}"`),
+        `${oldPath} missing canonical to ${url}`);
+      assert.match(html, /content="0;\s*url=/, `${oldPath} missing meta refresh`);
+      assert.ok(html.includes('name="robots"') && html.includes('noindex'),
+        `${oldPath} stub must be noindex`);
+      assert.ok(html.length < 1200, `${oldPath} should be a stub, not a full page`);
+    }
+  });
+
+  test('orphaned thank-you page is noindex and has no stub', () => {
+    assert.ok(readPage('thank-you/index.html').includes('noindex'),
+      'thank-you must be noindex');
+    assert.ok(!pageExists('pages/thank-you.html'),
+      'thank-you is orphaned; no stub needed');
   });
 });
