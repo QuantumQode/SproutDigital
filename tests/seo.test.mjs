@@ -1,6 +1,6 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
-import { readPage, pageExists, internalLinks, jsonLdBlocks, PAGES } from './helpers.mjs';
+import { readPage, pageExists, internalLinks, jsonLdBlocks, PAGES, isInternalHref } from './helpers.mjs';
 
 describe('content is present in raw HTML (no JS execution)', () => {
   test('pricing page states every plan price', () => {
@@ -117,9 +117,30 @@ describe('no broken checkout links', () => {
   test('no rel=nofollow on internal links (spec D4)', () => {
     for (const f of FILES.filter(f => f.endsWith('.html'))) {
       const html = readPage(f);
-      const nofollowInternal = [...html.matchAll(/<a[^>]*>/g)]
-        .map(m => m[0])
-        .filter(tag => tag.includes('nofollow') && !/href="https?:/.test(tag));
+      const aTags = [...html.matchAll(/<a[^>]*>/gi)]; // case-insensitive
+      const nofollowInternal = [];
+
+      for (const match of aTags) {
+        const tag = match[0];
+
+        // Extract href (handle double quotes, single quotes, and unquoted)
+        const hrefMatch = tag.match(/href\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+        if (!hrefMatch) continue;
+        const href = hrefMatch[1] || hrefMatch[2] || hrefMatch[3];
+
+        // Check if it's internal (skip if external)
+        if (!isInternalHref(href)) continue;
+
+        // Check if it has rel=nofollow (match case-insensitive)
+        const relMatch = tag.match(/rel\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+        if (relMatch) {
+          const rel = (relMatch[1] || relMatch[2] || relMatch[3]).toLowerCase();
+          if (rel.includes('nofollow')) {
+            nofollowInternal.push(tag);
+          }
+        }
+      }
+
       assert.equal(nofollowInternal.length, 0,
         `${f} has nofollow on internal link(s): ${nofollowInternal.join(', ')}`);
     }

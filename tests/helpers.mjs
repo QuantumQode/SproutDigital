@@ -12,11 +12,16 @@ export function pageExists(relPath) {
   return existsSync(join(ROOT, relPath));
 }
 
+/** Determine if an href value is internal (not external, anchor-only, mailto, tel, or data URI). */
+export function isInternalHref(href) {
+  return !/^(https?:|#|mailto:|tel:|data:)/.test(href);
+}
+
 /** All href values that are not external, anchor-only, mailto, tel, or data URIs. */
 export function internalLinks(html) {
   return [...html.matchAll(/href="([^"]+)"/g)]
     .map(m => m[1])
-    .filter(h => !/^(https?:|#|mailto:|tel:|data:)/.test(h));
+    .filter(h => isInternalHref(h));
 }
 
 /** Parsed contents of every <script type="application/ld+json"> block. */
