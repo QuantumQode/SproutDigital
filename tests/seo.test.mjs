@@ -91,3 +91,37 @@ describe('main.js contains behaviour only, not content', () => {
     }
   });
 });
+
+describe('no broken checkout links', () => {
+  const FILES = ['index.html', '404.html', 'js/main.js',
+                 'pages/services.html', 'pages/work.html',
+                 'pages/pricing.html', 'pages/contact.html'];
+
+  test('no STRIPE_LINK_PLACEHOLDER anywhere', () => {
+    for (const f of FILES) {
+      assert.ok(!readPage(f).includes('STRIPE_LINK_PLACEHOLDER'),
+        `${f} still contains a Stripe placeholder`);
+    }
+  });
+
+  test('pricing CTAs target the contact page with a plan param', () => {
+    const html = readPage('pages/pricing.html');
+    for (const plan of ['Launch', 'Growth', 'Scale']) {
+      assert.ok(html.includes(`/contact/?plan=${plan}`), `missing CTA for ${plan}`);
+    }
+    // Foundation is bundled and must not have a purchase CTA.
+    assert.ok(!html.includes('/contact/?plan=Foundation'),
+      'Foundation is bundled and should have no purchase CTA');
+  });
+
+  test('no rel=nofollow on internal links (spec D4)', () => {
+    for (const f of FILES.filter(f => f.endsWith('.html'))) {
+      const html = readPage(f);
+      const nofollowInternal = [...html.matchAll(/<a[^>]*>/g)]
+        .map(m => m[0])
+        .filter(tag => tag.includes('nofollow') && !/href="https?:/.test(tag));
+      assert.equal(nofollowInternal.length, 0,
+        `${f} has nofollow on internal link(s): ${nofollowInternal.join(', ')}`);
+    }
+  });
+});
