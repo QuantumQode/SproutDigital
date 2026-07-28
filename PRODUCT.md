@@ -46,7 +46,7 @@ No real evidence exists yet — this is a new agency with no clients so far. Eve
 - Testimonials (e.g. "James T. — NinjaPlumbers") are fabricated quotes.
 - Client logos (GIAT LTD, NinjaPlumbers, DiyahAesthetics, ShineyPetGrooming) are fictional/placeholder names, not real clients.
 - Stats (4.6x ROAS, +248% organic traffic, -38% cost per lead, 24h campaign launch, funnel numbers like "128k impressions / 6,400 clicks / 512 leads / 137 customers") are illustrative placeholder numbers, not measured results.
-- Pricing is the real intended pricing, not placeholder, priced in GBP for a budget-conscious UK small-business audience: Launch (£200 one-time website build) with Foundation (£29/mo hosting, domain, security & basic SEO upkeep) bundled in automatically and not sold on its own, then optional Growth (£350/mo ongoing SEO & content) and Scale (£750/mo Google/Meta ads management) retainer tiers for clients ready to invest further.
+- Pricing is the real intended pricing, not placeholder, priced in GBP for a budget-conscious UK small-business audience: Launch (£200 one-time website build) with Foundation (£29/mo hosting, domain, security & basic SEO upkeep) bundled in automatically and not sold on its own, then optional Growth (£149/mo ongoing SEO & content) and Scale (£399/mo Google/Meta ads management) retainer tiers for clients ready to invest further.
 - Future work must not invent new fake testimonials/logos/stats beyond what's already there, and should flag to the user when real evidence is needed to replace placeholders — not fabricate replacements.
 
 ## Product Principles
