@@ -1352,6 +1352,21 @@ nav.site-nav.scrolled {
   50% { opacity: 0.7; box-shadow: 0 0 0 6px oklch(0.7 0.18 150 / 0); }
 }
 
+/* ============ Pause off-screen decorative motion ============ */
+
+/* Blobs/bubbles/ads-box glow drift indefinitely; paused via IO in main.js
+   once their host section scrolls out of view, so compositing cost isn't
+   paid for decoration nobody can see. */
+.decor-paused .blob-a,
+.decor-paused .blob-b,
+.decor-paused .blob-c,
+.decor-paused .blob-d,
+.decor-paused .bubble,
+.decor-paused.ads-box::before,
+.decor-paused.ads-box::after {
+  animation-play-state: paused;
+}
+
 /* ============ Reduced motion ============ */
 
 @media (prefers-reduced-motion: reduce) {

@@ -67,6 +67,19 @@ if (bentoGrid) {
   onInView(bentoGrid, () => animateCounters(bentoGrid), 0.25);
 }
 
+// ---- Pause off-screen decorative blob/bubble/glow animations ----
+if (!reducedMotion && 'IntersectionObserver' in window) {
+  const decorHosts = document.querySelectorAll('.hero, .page-hero, .deco-scope, .cta-box, .ads-box');
+  if (decorHosts.length) {
+    const decorIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        entry.target.classList.toggle('decor-paused', !entry.isIntersecting);
+      });
+    }, { rootMargin: '200px 0px' });
+    decorHosts.forEach(host => decorIO.observe(host));
+  }
+}
+
 // ---- Mobile nav toggle ----
 const navToggle = document.getElementById('nav-toggle');
 if (navToggle) {
