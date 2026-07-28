@@ -90,6 +90,16 @@ img, svg { max-width: 100%; }
 }
 .skip-link:focus { top: 0; color: white; }
 
+/* Living plant canvas (home): fixed behind all content, above the body wash */
+#plant-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
 /* Scroll progress (CSS scroll-driven; invisible where unsupported) */
 .scroll-progress {
   position: fixed;
