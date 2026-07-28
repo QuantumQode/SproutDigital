@@ -86,9 +86,7 @@
   let blendY = null, pileTargetX = 0;
 
   const stemBaseX = (y) => {
-    let x = gutterMode
-      ? stemX0 + Math.sin(y * 0.004 + 1.7) * 4
-      : stemX0 + (Math.sin(y * 0.0009 + 1.2) * 0.62 + Math.sin(y * 0.0021 + 4.1) * 0.38) * stemAmp;
+    let x = stemX0 + (Math.sin(y * 0.0009 + 1.2) * 0.62 + Math.sin(y * 0.0021 + 4.1) * 0.38) * stemAmp;
     // Final approach: bend the stem into the centre of the dirt pile.
     if (blendY !== null && y > blendY) {
       const t = Math.min((y - blendY) / 160, 1);
@@ -100,7 +98,7 @@
   const depthFrac = (y) => Math.min(Math.max((y - stemTop) / (stemBottom - stemTop), 0), 1);
   const stemWidth = (y) => {
     const d = depthFrac(y);
-    return gutterMode ? 2.2 + d * 2.8 : 3.5 + d * 5.5;
+    return gutterMode ? 3.4 + d * 3.6 : 5 + d * 7;
   };
   // Free end is the top: sway fades to zero where the stem roots into the dirt.
   const freeFactor = (y) => Math.pow(1 - depthFrac(y), 1.5);
@@ -123,16 +121,14 @@
     stemTop = 150;
     // End the stem just past the pile crest so the front lip buries it cleanly.
     stemBottom = groundY - 8;
-    stemX0 = gutterMode ? 12 : vw / 2;
-    stemAmp = gutterMode ? 0 : Math.min(vw * 0.26, 380);
+    stemX0 = vw / 2;
+    stemAmp = gutterMode ? Math.min(vw * 0.14, 46) : Math.min(vw * 0.26, 380);
 
-    // Dirt pile: centred under the stem base on desktop, pulled onscreen on mobile.
+    // Dirt pile: centred under wherever the stem base actually lands.
     const pileW = gutterMode ? Math.min(vw * 0.9, 320) : 420;
     blendY = null;
     const rawBaseX = stemBaseX(stemBottom);
-    pileTargetX = gutterMode
-      ? 60
-      : Math.min(Math.max(rawBaseX, pileW * 0.55), vw - pileW * 0.55);
+    pileTargetX = Math.min(Math.max(rawBaseX, pileW * 0.55), vw - pileW * 0.55);
     blendY = stemBottom - 160;
     dirt = {
       groundY,
@@ -172,8 +168,8 @@
       const s = seed++;
       leaves.push({
         y: a + (rand(s) - 0.5) * 40,
-        side: gutterMode ? 1 : side,
-        size: (gutterMode ? 26 : 48) + rand(s + 1) * (gutterMode ? 10 : 18),
+        side,
+        size: (gutterMode ? 30 : 48) + rand(s + 1) * (gutterMode ? 12 : 18),
         variant: Math.floor(rand(s + 2) * leafFills.length),
         phase: rand(s + 3) * Math.PI * 2,
         tilt: -0.5 - rand(s + 4) * 0.35,
@@ -188,7 +184,7 @@
       const yy = y + rand(s) * 120;
       leaves.push({
         y: yy,
-        side: gutterMode ? 1 : (rand(s + 1) > 0.5 ? 1 : -1),
+        side: rand(s + 1) > 0.5 ? 1 : -1,
         size: (gutterMode ? 12 : 16) + rand(s + 2) * 8,
         variant: Math.floor(rand(s + 3) * leafFills.length),
         phase: rand(s + 4) * Math.PI * 2,
@@ -203,9 +199,8 @@
     // Canopy: a fan of leaves at the top of the stem, echoing the brand mark.
     canopy = [];
     const n = gutterMode ? 5 : 7;
-    // In the mobile gutter the fan tilts right so leaves stay onscreen.
-    const fanCenter = gutterMode ? -Math.PI / 2 + 0.55 : -Math.PI / 2;
-    const fanSpread = gutterMode ? 1.5 : 2.2;
+    const fanCenter = -Math.PI / 2;
+    const fanSpread = gutterMode ? 1.9 : 2.2;
     for (let k = 0; k < n; k++) {
       const s = 100 + k;
       const t = n === 1 ? 0.5 : k / (n - 1);
