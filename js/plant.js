@@ -145,12 +145,14 @@
     }
     if (points[points.length - 1].y < stemBottom) points.push({ y: stemBottom, off: 0, vel: 0 });
 
-    // Headings that sit directly on the page background (no opaque card behind
-    // them) get a no-cross band: the stem fades out before it and back in after,
-    // so it never draws through a headline. Headings already covered by an
-    // opaque ancestor (dark ads box, cta box, cards) don't need one.
+    // Headings and standalone stat numbers that sit directly on the page
+    // background (no opaque card behind them) get a no-cross band: the stem
+    // fades out before it and back in after, so it never draws through text.
+    // Elements already covered by an opaque ancestor (dark ads box, cta box,
+    // cards) don't need one — that's re-checked live since mobile drops the
+    // card background on several sections the desktop layout keeps opaque.
     textBands = [];
-    document.querySelectorAll('h1, h2').forEach(h => {
+    document.querySelectorAll('h1, h2, h3, .bento-num').forEach(h => {
       let el = h, exposed = true;
       while (el && el !== document.body) {
         const cs = getComputedStyle(el);

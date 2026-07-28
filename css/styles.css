@@ -1448,15 +1448,54 @@ nav.site-nav.scrolled {
 
 @media (max-width: 640px) {
   .services-grid, .work-grid, .pricing-grid, .process-grid, .form-row { grid-template-columns: 1fr; }
-  .bento-grid {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "roas roas"
-      "cpl launch"
-      "quote quote";
-    gap: 14px;
+
+  /* De-boxed mobile layout: services, results, testimonials, and work drop
+     their card chrome and read as flowing content divided by hairlines or
+     color instead of stacked bordered boxes. Pricing plans, the contact
+     form, and FAQ items stay real cards — they're genuinely discrete units
+     (a plan to pick, a form to fill, a control to expand). */
+
+  .services-grid { gap: 0; }
+  .service-card {
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 28px 0;
   }
-  .bento-tile { padding: 22px; min-height: 130px; }
+  .service-card:first-child { padding-top: 0; }
+  .service-card + .service-card { border-top: 1px solid var(--border); }
+
+  .bento-grid { grid-template-columns: 1fr; grid-template-areas: none; gap: 0; }
+  .bento-roas, .bento-cpl, .bento-launch, .bento-quote { grid-area: auto; }
+  .bento-tile {
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 24px 0;
+    min-height: 0;
+  }
+  .bento-tile:first-child { padding-top: 0; }
+  .bento-roas { background: none; }
+  .bento-roas .bento-num { font-size: clamp(44px, 13vw, 56px); }
+  .bento-tile + .bento-tile { border-top: 1px solid var(--border); }
+
+  .testimonials-grid { gap: 0; }
+  .testimonial-card {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 calc(-1 * clamp(20px, 5vw, 64px));
+    padding: 28px clamp(20px, 5vw, 64px);
+  }
+
+  .work-grid { gap: 0; }
+  .work-card { background: none; border: none; border-radius: 0; box-shadow: none; }
+  .work-card + .work-card { border-top: 1px solid var(--border); margin-top: 28px; padding-top: 28px; }
+  .work-thumb { margin: 0 calc(-1 * clamp(20px, 5vw, 64px)); padding: 6px clamp(20px, 5vw, 64px) 0; }
+  .work-body { padding: 20px 0 0; }
+
   .plan-card { padding: 32px 26px; }
   .hero-ctas { flex-direction: column; align-items: stretch; }
   .hero-ctas .btn-primary, .hero-ctas .btn-secondary { width: 100%; }
