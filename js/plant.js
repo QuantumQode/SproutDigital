@@ -82,8 +82,8 @@
   let time = 0, lastNow = 0;
   let bottomBurstDone = false;
   let staticMode = rmQuery.matches;
-  let staticDirty = true;
   let blendY = null, pileTargetX = 0;
+  let textBands = [];    // doc-space {top, bottom} of headings the canvas would otherwise cross
 
   const stemBaseX = (y) => {
     let x = stemX0 + (Math.sin(y * 0.0009 + 1.2) * 0.62 + Math.sin(y * 0.0021 + 4.1) * 0.38) * stemAmp;
@@ -145,6 +145,28 @@
     }
     if (points[points.length - 1].y < stemBottom) points.push({ y: stemBottom, off: 0, vel: 0 });
 
+    // Headings that sit directly on the page background (no opaque card behind
+    // them) get a no-cross band: the stem fades out before it and back in after,
+    // so it never draws through a headline. Headings already covered by an
+    // opaque ancestor (dark ads box, cta box, cards) don't need one.
+    textBands = [];
+    document.querySelectorAll('h1, h2').forEach(h => {
+      let el = h, exposed = true;
+      while (el && el !== document.body) {
+        const cs = getComputedStyle(el);
+        if (
+          (cs.backgroundColor && cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent') ||
+          (cs.backgroundImage && cs.backgroundImage !== 'none')
+        ) { exposed = false; break; }
+        el = el.parentElement;
+      }
+      if (!exposed) return;
+      const r = h.getBoundingClientRect();
+      if (r.width === 0 && r.height === 0) return;
+      textBands.push({ top: r.top + window.scrollY - 40, bottom: r.bottom + window.scrollY + 18 });
+    });
+    const inTextBand = (y) => textBands.some(b => y > b.top && y < b.bottom);
+
     // Leaves: anchored in each section's top/bottom padding whitespace,
     // where the canvas is actually visible between cards.
     leaves = [];
@@ -161,8 +183,8 @@
     let lastA = -1e9;
     let side = 1;
     anchors.forEach(a => {
-      // No leaves behind footer text; keep them in section whitespace only.
-      if (a - lastA < 260 || a < stemTop + vh * 0.5 || a > Math.min(stemBottom - 200, footerTop - 80)) return;
+      // No leaves behind footer or headline text; keep them in whitespace only.
+      if (a - lastA < 260 || a < stemTop + vh * 0.5 || a > Math.min(stemBottom - 200, footerTop - 80) || inTextBand(a)) return;
       lastA = a;
       side *= -1;
       const s = seed++;
@@ -182,6 +204,7 @@
     for (let y = stemTop + vh * 0.8; y < Math.min(stemBottom - 300, footerTop - 80); y += 400) {
       const s = seed++;
       const yy = y + rand(s) * 120;
+      if (inTextBand(yy)) continue;
       leaves.push({
         y: yy,
         side: rand(s + 1) > 0.5 ? 1 : -1,
@@ -254,7 +277,6 @@
         });
       }
     }
-    staticDirty = true;
   };
 
   // -- Drawing helpers --
@@ -506,6 +528,32 @@
     });
   };
 
+  // Soft-fade whatever's been painted so far (the stem, mainly) behind any
+  // heading currently in view, so headline text always reads on a clean page
+  // background instead of crossing the ribbon.
+  const eraseTextBands = () => {
+    if (!textBands.length) return;
+    const yMin = scrollY - 60, yMax = scrollY + vh + 60;
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-out';
+    textBands.forEach(b => {
+      if (b.bottom < yMin || b.top > yMax) return;
+      const total = b.bottom - b.top;
+      // Fixed-pixel feather so tall, multi-line headlines still erase fully
+      // through their middle instead of the fade eating the whole band.
+      const feather = Math.min(30, total * 0.4);
+      const f0 = feather / total;
+      const g = ctx.createLinearGradient(0, b.top, 0, b.bottom);
+      g.addColorStop(0, 'rgba(0,0,0,0)');
+      g.addColorStop(f0, 'rgba(0,0,0,1)');
+      g.addColorStop(1 - f0, 'rgba(0,0,0,1)');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, b.top, vw, total);
+    });
+    ctx.restore();
+  };
+
   const drawMotes = () => {
     motes.forEach(m => {
       ctx.globalAlpha = m.alpha * (0.75 + 0.25 * Math.sin(time * 1.7 + m.phase));
@@ -523,6 +571,7 @@
     ctx.translate(0, -scrollY);
     drawDirt();
     drawStem();
+    eraseTextBands();
     drawDirtFront();
     drawLeaves();
     drawCanopy();
