@@ -1513,3 +1513,57 @@ nav.site-nav.scrolled {
   .footer-top { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { justify-content: center; text-align: center; }
 }
+
+/* ============ Pricing carousel (mobile) ============ */
+/* One card at a time, native scroll-snap momentum, peeking dimmed/scaled
+   neighbors driven by --card-scale/--card-fade (set in main.js). Works as a
+   plain swipeable strip with no JS at all; JS layers on the depth effect + dots. */
+
+@media (max-width: 640px) {
+  .pricing-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 16px;
+    padding-block: 24px 32px;
+    padding-inline: 24px;
+    margin-inline: calc(-1 * clamp(20px, 5vw, 64px));
+    scroll-padding-inline: 24px;
+  }
+  .pricing-grid::-webkit-scrollbar { display: none; }
+  .plan-card {
+    flex: 0 0 min(82%, 336px);
+    min-width: 0;
+    padding: 30px 24px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    scale: var(--card-scale, 1);
+    opacity: var(--card-fade, 1);
+    transition: scale .25s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
+  }
+  .pricing-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .pricing-dots .dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 100px;
+    background: var(--border-strong);
+    scale: 1 1;
+    transition: background .25s ease, scale .25s ease;
+    cursor: pointer;
+  }
+  .pricing-dots .dot:hover { background: var(--muted); }
+  .pricing-dots .dot.active { background: var(--green); scale: 2.75 1; }
+}
+@media (min-width: 641px) {
+  .pricing-dots { display: none; }
+}
