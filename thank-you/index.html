@@ -140,12 +140,13 @@
 </div>
 
 <script>
-  // Personalize the headline when Stripe redirects back with ?plan=Launch|Growth|Scale
+  // Personalize the headline when Stripe redirects back with ?plan=Launch|Growth|Ads Starter|Scale
   (function () {
     var plan = new URLSearchParams(location.search).get('plan');
     var headings = {
       Launch: "You're in. Let's build your Launch site.",
       Growth: "You're in. Let's get you ranking.",
+      'Ads Starter': "You're in. Let's get your ads live.",
       Scale: "You're in. Let's scale your growth."
     };
     if (plan && headings[plan]) document.getElementById('thanks-heading').textContent = headings[plan];
