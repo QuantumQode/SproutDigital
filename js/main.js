@@ -195,115 +195,104 @@ if (!reducedMotion) {
   }
 }
 
-// ---- Pricing carousel (mobile): one card at a time, peeking scaled/dimmed
-// neighbors, synced dot indicator. The CSS scroll-snap strip already works as a
-// plain swipeable carousel with zero JS; this layers on the depth effect + dots. ----
+// ---- Pricing tabs (mobile): every plan's name + price stays visible at once
+// in a wrapping chip strip; tapping a chip swaps which plan's full card shows
+// below, so a shopper never has to swipe blind to see what plans exist. ----
 const pricingGrid = document.querySelector('.pricing-grid');
 if (pricingGrid) {
   const planCards = [...pricingGrid.querySelectorAll('.plan-card')];
-  const carouselMq = matchMedia('(max-width: 640px)');
-  let dotsEl = null;
-  let carouselOn = false;
+  const tabsMq = matchMedia('(max-width: 640px)');
+  const defaultIdx = Math.max(planCards.findIndex(c => c.classList.contains('featured')), 0);
+  let tabsEl = null;
+  let tabButtons = [];
+  let tabsOn = false;
+  let activeIdx = defaultIdx;
 
-  const buildDots = () => {
-    dotsEl = document.createElement('div');
-    dotsEl.className = 'pricing-dots';
-    dotsEl.setAttribute('role', 'group');
-    dotsEl.setAttribute('aria-label', 'Pricing plans');
-    planCards.forEach((card, i) => {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'dot';
-      dot.setAttribute('aria-label', `Go to ${card.querySelector('.plan-name')?.textContent || `plan ${i + 1}`} plan`);
-      dot.addEventListener('click', () => {
-        card.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
-      });
-      dotsEl.appendChild(dot);
+  const setActive = (idx, { focus = false } = {}) => {
+    activeIdx = idx;
+    planCards.forEach((card, i) => card.classList.toggle('mobile-active', i === idx));
+    tabButtons.forEach((btn, i) => {
+      const selected = i === idx;
+      btn.setAttribute('aria-selected', String(selected));
+      btn.tabIndex = selected ? 0 : -1;
+      if (selected && focus) btn.focus();
     });
-    pricingGrid.insertAdjacentElement('afterend', dotsEl);
   };
 
-  const updateDepth = () => {
-    const rect = pricingGrid.getBoundingClientRect();
-    const mid = rect.left + rect.width / 2;
-    // The first/last card can't scroll far enough to sit exactly on `mid` (the
-    // scroll range runs out), so measure distance first and then force whichever
-    // card is nearest to full scale/opacity — otherwise Launch and Scale would
-    // always look a hair scaled-down and dimmed even while "active".
-    let activeIdx = 0;
-    let activeDist = Infinity;
-    const dists = planCards.map((card) => {
-      const cr = card.getBoundingClientRect();
-      return Math.abs((cr.left + cr.width / 2) - mid);
-    });
-    dists.forEach((raw, i) => { if (raw < activeDist) { activeDist = raw; activeIdx = i; } });
-    planCards.forEach((card, i) => {
-      const norm = i === activeIdx ? 0 : Math.min(dists[i] / (rect.width / 2), 1);
-      card.style.setProperty('--card-scale', (1 - norm * 0.15).toFixed(3));
-      card.style.setProperty('--card-fade', (1 - norm * 0.45).toFixed(3));
-    });
-    if (dotsEl) {
-      [...dotsEl.children].forEach((dot, i) => {
-        const isActive = i === activeIdx;
-        dot.classList.toggle('active', isActive);
-        if (isActive) dot.setAttribute('aria-current', 'true');
-        else dot.removeAttribute('aria-current');
+  const buildTabs = () => {
+    tabsEl = document.createElement('div');
+    tabsEl.className = 'pricing-tabs';
+    tabsEl.setAttribute('role', 'tablist');
+    tabsEl.setAttribute('aria-label', 'Pricing plans');
+    tabButtons = planCards.map((card, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pricing-tab';
+      btn.id = `pricing-tab-${i}`;
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-controls', card.id || (card.id = `pricing-panel-${i}`));
+      card.setAttribute('aria-labelledby', btn.id);
+      if (card.classList.contains('featured')) {
+        const popular = document.createElement('span');
+        popular.className = 'pricing-tab-popular';
+        popular.textContent = 'Popular';
+        btn.appendChild(popular);
+      }
+      const name = document.createElement('span');
+      name.className = 'pricing-tab-name';
+      name.textContent = card.querySelector('.plan-name')?.textContent || `Plan ${i + 1}`;
+      btn.appendChild(name);
+      const price = document.createElement('span');
+      price.className = 'pricing-tab-price';
+      const num = card.querySelector('.price-num')?.textContent || '';
+      const period = card.querySelector('.price-period')?.textContent || '';
+      price.textContent = period ? `${num} ${period}` : num;
+      btn.appendChild(price);
+      btn.addEventListener('click', () => setActive(i));
+      btn.addEventListener('keydown', (e) => {
+        const last = tabButtons.length - 1;
+        let next = null;
+        if (e.key === 'ArrowRight') next = i === last ? 0 : i + 1;
+        else if (e.key === 'ArrowLeft') next = i === 0 ? last : i - 1;
+        else if (e.key === 'Home') next = 0;
+        else if (e.key === 'End') next = last;
+        if (next !== null) {
+          e.preventDefault();
+          setActive(next, { focus: true });
+        }
       });
-    }
+      tabsEl.appendChild(btn);
+      return btn;
+    });
+    pricingGrid.insertAdjacentElement('beforebegin', tabsEl);
   };
 
-  const enableCarousel = () => {
-    if (carouselOn) return;
-    carouselOn = true;
-    // The vertical entrance-reveal (opacity/translate) would otherwise fight the
-    // horizontal depth effect (opacity/scale) for the same cards — drop it here.
+  const enableTabs = () => {
+    if (tabsOn) return;
+    tabsOn = true;
+    // The entrance-reveal (opacity/translate on scroll into view) would otherwise
+    // fight the tab-switch fade-in for the same cards — drop it here.
     planCards.forEach(c => c.classList.remove('reveal', 'reveal-sda', 'in'));
-    pricingGrid.setAttribute('tabindex', '0');
-    pricingGrid.setAttribute('role', 'region');
-    pricingGrid.setAttribute('aria-label', 'Pricing plans — swipe to browse');
-    buildDots();
-    updateDepth();
+    pricingGrid.classList.add('js-tabs');
+    planCards.forEach(card => card.setAttribute('role', 'tabpanel'));
+    if (!tabsEl) buildTabs();
+    setActive(activeIdx);
   };
 
-  const disableCarousel = () => {
-    if (!carouselOn) return;
-    carouselOn = false;
-    planCards.forEach(c => {
-      c.style.removeProperty('--card-scale');
-      c.style.removeProperty('--card-fade');
+  const disableTabs = () => {
+    if (!tabsOn) return;
+    tabsOn = false;
+    pricingGrid.classList.remove('js-tabs');
+    planCards.forEach(card => {
+      card.classList.remove('mobile-active');
+      card.removeAttribute('role');
+      card.removeAttribute('aria-labelledby');
     });
-    pricingGrid.removeAttribute('tabindex');
-    pricingGrid.removeAttribute('role');
-    pricingGrid.removeAttribute('aria-label');
-    if (dotsEl) { dotsEl.remove(); dotsEl = null; }
+    if (tabsEl) { tabsEl.remove(); tabsEl = null; tabButtons = []; }
   };
 
-  if (carouselMq.matches) enableCarousel();
-  carouselMq.addEventListener('change', (e) => (e.matches ? enableCarousel() : disableCarousel()));
-
-  let carouselTicking = false;
-  pricingGrid.addEventListener('scroll', () => {
-    if (!carouselOn || carouselTicking) return;
-    carouselTicking = true;
-    requestAnimationFrame(() => { updateDepth(); carouselTicking = false; });
-  }, { passive: true });
-
-  window.addEventListener('resize', () => { if (carouselOn) updateDepth(); });
-
-  // Tapping a peeking (off-center) card brings it to center instead of firing
-  // its link, so a partially-hidden card never triggers checkout by accident.
-  pricingGrid.addEventListener('click', (e) => {
-    if (!carouselOn) return;
-    const card = e.target.closest('.plan-card');
-    if (!card) return;
-    const rect = pricingGrid.getBoundingClientRect();
-    const cr = card.getBoundingClientRect();
-    const off = Math.abs((cr.left + cr.width / 2) - (rect.left + rect.width / 2));
-    if (off > rect.width * 0.12) {
-      e.preventDefault();
-      card.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
-    }
-  }, true);
+  if (tabsMq.matches) enableTabs();
+  tabsMq.addEventListener('change', (e) => (e.matches ? enableTabs() : disableTabs()));
 }
 
 // ---- Contact form (contact page only) ----

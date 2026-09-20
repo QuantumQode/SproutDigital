@@ -1514,56 +1514,72 @@ nav.site-nav.scrolled {
   .footer-bottom { justify-content: center; text-align: center; }
 }
 
-/* ============ Pricing carousel (mobile) ============ */
-/* One card at a time, native scroll-snap momentum, peeking dimmed/scaled
-   neighbors driven by --card-scale/--card-fade (set in main.js). Works as a
-   plain swipeable strip with no JS at all; JS layers on the depth effect + dots. */
+/* ============ Pricing tabs (mobile) ============ */
+/* Every plan's name + price stays visible at once in a wrapping chip strip
+   (no scrolling required to see what exists) while only the selected plan's
+   full detail card renders below — tapping a chip swaps the card in place.
+   Desktop is untouched; without JS, .pricing-grid falls back to the plain
+   1-column stack set at the top of this breakpoint. */
 
 @media (max-width: 640px) {
-  .pricing-grid {
+  .pricing-tabs {
     display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    gap: 16px;
-    padding-block: 24px 32px;
-    padding-inline: 24px;
-    margin-inline: calc(-1 * clamp(20px, 5vw, 64px));
-    scroll-padding-inline: 24px;
-  }
-  .pricing-grid::-webkit-scrollbar { display: none; }
-  .plan-card {
-    flex: 0 0 min(82%, 336px);
-    min-width: 0;
-    padding: 30px 24px;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
-    scale: var(--card-scale, 1);
-    opacity: var(--card-fade, 1);
-    transition: scale .25s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
-  }
-  .pricing-dots {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
     gap: 8px;
-    margin-top: 6px;
+    padding-block: 4px 22px;
   }
-  .pricing-dots .dot {
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    border: none;
-    border-radius: 100px;
-    background: var(--border-strong);
-    scale: 1 1;
-    transition: background .25s ease, scale .25s ease;
+  .pricing-tab {
+    flex: 1 1 auto;
+    min-width: 84px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 8px 9px;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    text-align: center;
     cursor: pointer;
+    transition: border-color .2s ease, background .2s ease, transform .15s ease;
   }
-  .pricing-dots .dot:hover { background: var(--muted); }
-  .pricing-dots .dot.active { background: var(--green); scale: 2.75 1; }
+  .pricing-tab:hover { border-color: var(--border-strong); }
+  .pricing-tab:active { transform: scale(0.97); }
+  .pricing-tab-popular {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--green-label);
+    line-height: 1;
+  }
+  .pricing-tab-name {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .pricing-tab-price { font-size: 12px; color: var(--muted); line-height: 1.2; }
+  .pricing-tab[aria-selected="true"] {
+    border-color: var(--green);
+    background: var(--green-soft);
+    box-shadow: 0 6px 16px -10px oklch(from var(--shadow-tint) l c h / 0.4);
+  }
+  .pricing-tab[aria-selected="true"] .pricing-tab-name,
+  .pricing-tab[aria-selected="true"] .pricing-tab-price { color: var(--green-deep); }
+
+  .pricing-grid.js-tabs { display: block; }
+  .pricing-grid.js-tabs .plan-card { display: none; }
+  .pricing-grid.js-tabs .plan-card.mobile-active {
+    display: flex;
+    animation: pricing-panel-in .2s ease;
+  }
+}
+@keyframes pricing-panel-in {
+  from { opacity: 0; translate: 0 6px; }
+  to { opacity: 1; translate: 0 0; }
 }
 @media (min-width: 641px) {
-  .pricing-dots { display: none; }
+  .pricing-tabs { display: none; }
 }
