@@ -940,7 +940,7 @@ nav.site-nav.scrolled {
 /* ============ Pricing ============ */
 
 .pricing-section { padding: clamp(72px, 9vw, 120px) 0; }
-.pricing-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; align-items: stretch; }
+.pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: stretch; }
 .plan-card {
   border-radius: 18px;
   padding: 32px 28px;
@@ -1529,7 +1529,7 @@ nav.site-nav.scrolled {
     padding-block: 4px 22px;
   }
   .pricing-tab {
-    flex: 1 1 auto;
+    flex: 1 1 40%; /* two per row: four plans wrap as an even 2×2 */
     min-width: 84px;
     display: flex;
     flex-direction: column;
