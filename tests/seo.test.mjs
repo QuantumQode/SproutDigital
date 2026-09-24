@@ -5,7 +5,7 @@ import { readPage, pageExists, internalLinks, jsonLdBlocks, PAGES, isInternalHre
 describe('content is present in raw HTML (no JS execution)', () => {
   test('pricing page states every plan price', () => {
     const html = readPage('pricing/index.html');
-    for (const price of ['£200', '£29', '£350', '£750']) {
+    for (const price of ['£499', '£49', '£249', '£449']) {
       assert.ok(html.includes(price), `missing price ${price}`);
     }
   });
@@ -290,7 +290,7 @@ describe('structured data', () => {
     const byName = Object.fromEntries(
       catalog.itemListElement.map(o => [o.itemOffered.name, o.price]));
     assert.deepEqual(byName,
-      { Launch: '200', Foundation: '29', Growth: '350', Scale: '750' });
+      { Launch: '499', Foundation: '49', Growth: '249', Scale: '449' });
   });
 
   test('no self-serving review markup (spec constraint)', () => {
