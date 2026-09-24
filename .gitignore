@@ -3,3 +3,9 @@
 tools/out/
 .claude/settings.local.json
 .DS_Store
+
+# Personal to-do list (kept local, never published)
+TODO.md
+
+# Private business documents (contracts etc.), never published
+business/

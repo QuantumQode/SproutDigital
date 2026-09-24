@@ -6,3 +6,6 @@ exclude:
   - PRODUCT.md
   - DESIGN.md
   - README.md
+  - CLAUDE.md
+  - TODO.md
+  - business
