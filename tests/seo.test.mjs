@@ -208,6 +208,20 @@ describe('link integrity', () => {
     }
   });
 
+  test('CSS/JS includes carry one shared cache-busting version', () => {
+    // Pages are cached for 10 min by GitHub Pages; an unversioned stylesheet
+    // can pair new HTML with old CSS (unstyled components, giant icons).
+    const versions = new Set();
+    for (const f of ALL) {
+      for (const [, url] of readPage(f).matchAll(/(?:href|src)="(\/(?:css|js)\/[^"]+)"/g)) {
+        const m = url.match(/\?v=([^"&]+)$/);
+        assert.ok(m, `${f}: ${url} has no ?v= cache-busting version`);
+        versions.add(m[1]);
+      }
+    }
+    assert.equal(versions.size, 1, `pages disagree on asset version: ${[...versions].join(', ')}`);
+  });
+
   test('every internal link resolves to a file on disk', () => {
     for (const f of ALL) {
       for (const href of internalLinks(readPage(f))) {

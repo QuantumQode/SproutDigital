@@ -14,3 +14,7 @@
 - It's only for the owner's tasks. Don't list Claude's own implementation steps.
 - Never `git add` TODO.md or remove it from `.gitignore`.
 - Mention in your reply when TODO.md changed (one line is enough), so the owner knows to check it.
+
+## Bump the asset version on every CSS/JS change
+
+Every page loads `/css/styles.css?v=…` and `/js/*.js?v=…`. GitHub Pages caches assets for 10 minutes, so an unchanged URL can pair new HTML with a stale stylesheet (unstyled components, giant SVG icons). Whenever you change any file in `css/` or `js/`, bump the `?v=` value on **every** page to the same new string (format `YYYY-MM-DD.N`). `tests/seo.test.mjs` fails if any page is missing it or pages disagree. Give inline SVG icons `width`/`height` attributes so they stay small even if CSS fails to load.

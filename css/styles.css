@@ -11,6 +11,9 @@
   --green: light-dark(oklch(0.6 0.15 150), oklch(0.66 0.15 150));
   --green-dark: light-dark(oklch(0.5 0.15 150), oklch(0.58 0.15 150));
   --green-deep: light-dark(oklch(0.4 0.13 150), oklch(0.82 0.12 150));
+  /* Fill green for surfaces carrying white text: ≥6:1 in both schemes (--green is only 3.7:1). */
+  --green-fill: light-dark(oklch(0.47 0.13 150), oklch(0.47 0.12 150));
+  --green-fill-hover: light-dark(oklch(0.41 0.12 150), oklch(0.53 0.13 150));
   --green-soft: light-dark(oklch(0.94 0.03 150), oklch(0.27 0.035 150));
   --green-label: light-dark(oklch(0.48 0.14 150), oklch(0.75 0.14 150));
 
@@ -81,7 +84,7 @@ img, svg { max-width: 100%; }
   position: absolute;
   left: 16px; top: -60px;
   z-index: 200;
-  background: var(--green);
+  background: var(--green-fill);
   color: white;
   font-weight: 700;
   padding: 12px 20px;
@@ -220,18 +223,18 @@ nav.site-nav.scrolled {
   cursor: pointer;
 }
 .btn-primary, .nav-cta {
-  background: var(--green);
+  background: var(--green-fill);
   color: white;
 }
 .btn-primary { font-size: 16px; padding: 14px 30px; border: none; font-family: inherit; }
 .btn-primary:hover {
-  background: var(--green-dark);
+  background: var(--green-fill-hover);
   color: white;
   transform: translateY(-3px);
   box-shadow: 0 16px 32px -12px oklch(0.5 0.15 150 / 0.5);
 }
 .nav-cta { font-size: 15px; padding: 10px 22px; border-radius: 10px; }
-.nav-cta:hover { background: var(--green-dark); color: white; transform: scale(1.04); }
+.nav-cta:hover { background: var(--green-fill-hover); color: white; transform: scale(1.04); }
 .btn-secondary {
   border: 1.5px solid var(--border-strong);
   color: var(--ink);
@@ -938,129 +941,176 @@ nav.site-nav.scrolled {
 .split-card .ads-chip:hover { background: var(--card); }
 
 /* ============ Pricing ============ */
+/* A two-step path: Step 1 is Launch (with Foundation attached), Step 2 is
+   Growth/Scale. .pricing-section and .pricing-unsure are also used on the
+   thank-you page. */
 
-.pricing-section { padding: clamp(72px, 9vw, 120px) 0; }
-.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+.pricing-section { padding: clamp(40px, 5vw, 56px) 0 clamp(72px, 9vw, 112px); }
+.plan-step + .plan-step { margin-top: clamp(64px, 8vw, 104px); }
+.step-head { max-width: 660px; margin-bottom: 26px; }
+.step-head .eyebrow-label { margin-bottom: 10px; }
+.step-head h2 {
+  font-size: clamp(26px, 1.8vw + 10px, 34px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 0;
+  text-wrap: balance;
+}
+.step-intro { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--ink-soft); text-wrap: pretty; }
+.step-intro strong { color: var(--ink); font-weight: 700; }
+.step-footnote { margin: 18px 0 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+
+/* Shared plan card */
 .plan-card {
-  border-radius: 18px;
-  padding: 32px 28px;
-  border: 1px solid var(--border);
   position: relative;
+  border-radius: 20px;
+  padding: clamp(26px, 3vw, 36px);
+  border: 1px solid var(--border);
   background: var(--card);
+  box-shadow: 0 18px 40px -28px oklch(from var(--shadow-tint) l c h / 0.35);
+}
+.plan-name {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+.plan-desc { font-size: 15px; line-height: 1.55; color: var(--muted); margin: 0 0 20px; text-wrap: pretty; }
+.plan-price { display: flex; align-items: baseline; gap: 8px; margin: 0 0 22px; }
+.price-num {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.price-period { font-size: 14.5px; color: var(--muted); }
+.plan-features { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; align-content: start; }
+.plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.45; color: var(--ink); }
+.plan-features .check { color: var(--green); display: inline-flex; flex-shrink: 0; margin-top: 2px; }
+.plan-features .check svg { width: 16px; height: 16px; }
+.plan-cta { margin-top: 26px; display: flex; flex-direction: column; gap: 10px; }
+.plan-cta a:not(.btn-primary) {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  font-weight: 700;
+  font-size: 15.5px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-strong);
+  color: var(--ink);
+  transition: transform .2s, background .2s, box-shadow .2s;
 }
+.plan-cta a:not(.btn-primary):hover { background: var(--hover-fill); transform: translateY(-2px); }
+.plan-next { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); text-wrap: pretty; }
+
+/* Step 1: Launch leads — price and action on the left, what you get on the right */
+.plan-launch {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(28px, 4vw, 56px);
+  padding: clamp(28px, 3.4vw, 44px);
+}
+.launch-main { display: flex; flex-direction: column; }
+.launch-main .plan-price { margin-bottom: 10px; }
+.plan-launch .price-num { font-size: 52px; }
+.launch-plus { margin: 0; font-size: 15.5px; line-height: 1.5; color: var(--ink-soft); }
+.launch-plus strong { color: var(--ink); font-weight: 700; }
+.launch-total {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--green-soft);
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+.launch-total strong { color: var(--green-deep); font-weight: 800; }
+.launch-main .plan-cta { margin-top: auto; padding-top: 28px; }
+.launch-includes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px clamp(24px, 3vw, 40px);
+  align-content: start;
+  padding-left: clamp(28px, 4vw, 56px);
+  border-left: 1px solid var(--border);
+}
+.include-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+  margin: 0 0 16px;
+  min-height: 28px;
+}
+.include-price {
+  font-family: 'Figtree', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-deep);
+  background: var(--green-soft);
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+.foundation-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green-deep);
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.foundation-mark svg { width: 17px; height: 17px; }
+.nowrap { white-space: nowrap; }
+.include-note { margin: 16px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+#foundation { scroll-margin-top: 110px; }
+
+/* Step 2: Growth and Scale share row tracks so names, prices and buttons line up */
+.pricing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.pricing-grid .plan-card { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; }
 .plan-card.featured {
-  background: var(--green);
-  border-color: var(--green);
-  box-shadow: 0 24px 56px -24px oklch(0.5 0.15 150 / 0.55);
+  background: var(--green-fill);
+  border-color: var(--green-fill);
+  box-shadow: 0 28px 56px -30px oklch(from var(--green-fill) l c h / 0.75);
 }
+.plan-card.featured .plan-name,
+.plan-card.featured .price-num,
+.plan-card.featured .plan-features li,
+.plan-card.featured .plan-features .check { color: white; }
+.plan-card.featured .plan-desc,
+.plan-card.featured .price-period,
+.plan-card.featured .plan-next { color: oklch(0.94 0.025 150); }
+.plan-card.featured .plan-cta a { background: white; border-color: white; color: oklch(0.4 0.12 150); }
+.plan-card.featured .plan-cta a:hover { background: oklch(0.96 0.02 150); }
+.plan-card.featured :focus-visible { outline-color: white; }
 .plan-badge {
   position: absolute;
-  top: -14px;
-  left: 50%;
-  translate: -50% 0;
+  top: -13px;
+  left: clamp(26px, 3vw, 36px);
   background: var(--ink);
   color: var(--bg);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 7px 16px;
+  padding: 6px 14px;
   border-radius: 100px;
   white-space: nowrap;
 }
-.plan-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 21px; font-weight: 700; margin-bottom: 8px; }
-.plan-desc { font-size: 15px; margin-bottom: 24px; color: var(--muted); }
-.plan-card.featured .plan-name, .plan-card.featured .price-num { color: white; }
-.plan-card.featured .plan-desc, .plan-card.featured .price-period { color: oklch(0.94 0.03 150); }
-.plan-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 28px; }
-.price-num { font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; font-weight: 800; color: var(--ink); }
-.price-period { font-size: 14px; color: var(--muted); }
-.plan-note { font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: -20px 0 24px; }
-.plan-card.featured .plan-note { color: oklch(0.94 0.03 150); }
-.plan-addon { font-size: 14px; line-height: 1.5; color: var(--ink-soft); margin: -20px 0 24px; }
-.plan-addon strong { color: var(--ink); font-weight: 700; }
-.plan-addon a { font-weight: 600; text-underline-offset: 3px; white-space: nowrap; }
-.plan-feature { display: flex; align-items: center; gap: 10px; font-size: 14.5px; color: var(--ink); margin-bottom: 12px; }
-.plan-card.featured .plan-feature { color: white; }
-.plan-feature .check { color: var(--green); display: inline-flex; flex-shrink: 0; }
-.plan-feature .check svg { width: 16px; height: 16px; }
-.plan-card.featured .plan-feature .check { color: white; }
-.plan-cta { margin-top: auto; padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
-.plan-cta a {
-  display: block;
-  text-align: center;
-  font-weight: 700;
-  font-size: 15px;
-  padding: 14px 24px;
-  border-radius: 12px;
-  border: 1.5px solid var(--border-strong);
-  color: var(--ink);
-  transition: transform .2s, background .2s, box-shadow .2s;
-}
-.plan-cta a:hover { background: var(--hover-fill); transform: translateY(-2px); }
-.plan-card.featured .plan-cta a {
-  background: white;
-  border-color: white;
-  color: oklch(0.5 0.15 150);
-}
-.plan-card.featured .plan-cta a:hover { background: oklch(0.96 0.02 150); }
-.plan-cta a.plan-cta-secondary {
-  border: none;
-  padding: 0;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--muted);
-}
-.plan-cta a.plan-cta-secondary:hover { background: none; transform: none; color: var(--ink); text-decoration: underline; }
-.plan-card.featured .plan-cta a.plan-cta-secondary { background: none; color: oklch(0.94 0.03 150); }
-.plan-card.featured .plan-cta a.plan-cta-secondary:hover { color: white; }
-.foundation-strip {
-  margin-top: 22px;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.15fr);
-  gap: 20px 28px;
-  align-items: center;
-  padding: 26px 30px;
-  border-radius: 18px;
-  background: var(--green-soft);
-  box-shadow: 0 14px 32px -24px oklch(from var(--shadow-tint) l c h / 0.3);
-  scroll-margin-top: 110px;
-}
-.foundation-mark {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--card);
-  color: var(--green);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 6px 16px -10px oklch(from var(--shadow-tint) l c h / 0.4);
-}
-.foundation-mark svg { width: 30px; height: 30px; }
-.foundation-title {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 19px;
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--ink);
-  text-wrap: balance;
-  margin: 0 0 6px;
-}
-.foundation-meta { font-size: 14px; line-height: 1.55; color: var(--ink-soft); margin: 0; text-wrap: pretty; }
-.foundation-meta strong { color: var(--green-deep); font-weight: 700; }
-.foundation-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 20px;
-}
-.foundation-list li { display: flex; align-items: flex-start; gap: 9px; font-size: 14px; line-height: 1.4; color: var(--ink); }
-.foundation-list .check { color: var(--green-deep); display: inline-flex; flex-shrink: 0; margin-top: 1px; }
-.foundation-list .check svg { width: 15px; height: 15px; }
 .pricing-unsure {
   text-align: center;
   margin-top: 12px;
@@ -1068,6 +1118,24 @@ nav.site-nav.scrolled {
   color: var(--muted);
 }
 .pricing-unsure a { font-weight: 700; }
+
+/* Pricing: compact page hero so Step 1 lands above the fold */
+.page-hero-compact { padding-top: clamp(48px, 6vw, 72px); }
+.page-hero-compact h1 { margin-bottom: 14px; }
+
+@media (max-width: 960px) {
+  .plan-launch { grid-template-columns: 1fr; }
+  .launch-main .plan-cta { margin-top: 0; }
+  .launch-includes { padding-left: 0; border-left: 0; padding-top: 28px; border-top: 1px solid var(--border); }
+}
+@media (max-width: 760px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .launch-includes { grid-template-columns: 1fr; }
+  .plan-launch .price-num { font-size: 46px; }
+  .pricing-grid .plan-card.mobile-active { display: flex; flex-direction: column; }
+}
 
 /* ============ FAQ (native exclusive accordion) ============ */
 
@@ -1105,7 +1173,7 @@ nav.site-nav.scrolled {
   font-weight: 600;
   transition: transform .3s ease, background .3s, color .3s;
 }
-.faq-item[open] .faq-arrow { transform: rotate(45deg); background: var(--green); color: white; }
+.faq-item[open] .faq-arrow { transform: rotate(45deg); background: var(--green-fill); color: white; }
 .faq-body { padding: 0 26px 24px; font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
 /* Smooth open/close where ::details-content is supported */
 .faq-item::details-content {
@@ -1427,8 +1495,6 @@ nav.site-nav.scrolled {
 
 @media (max-width: 1080px) {
   .services-grid, .work-grid { grid-template-columns: repeat(2, 1fr); }
-  .foundation-strip { grid-template-columns: auto minmax(0, 1fr); }
-  .foundation-list { grid-column: 1 / -1; }
   .process-grid { grid-template-columns: repeat(2, 1fr); }
   .testimonials-grid { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; }
   .ads-inner { grid-template-columns: 1fr; gap: 44px; }
@@ -1443,8 +1509,6 @@ nav.site-nav.scrolled {
 }
 
 @media (max-width: 860px) {
-  .pricing-grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; gap: 26px; }
-  .foundation-strip { max-width: 560px; margin-inline: auto; }
   .nav-cta { display: none; }
   .nav-toggle { display: flex; }
   .nav-links {
@@ -1469,12 +1533,12 @@ nav.site-nav.scrolled {
   .nav-cta-mobile {
     display: block;
     margin-top: 6px;
-    background: var(--green);
+    background: var(--green-fill);
     color: white !important;
     text-align: center;
     font-weight: 700;
   }
-  .nav-links .nav-cta-mobile:hover { background: var(--green-dark); }
+  .nav-links .nav-cta-mobile:hover { background: var(--green-fill-hover); }
 
   .hero { flex-direction: column; }
   .hero-copy, .hero-visual { flex: unset; width: 100%; }
@@ -1534,11 +1598,6 @@ nav.site-nav.scrolled {
   .work-thumb { margin: 0 calc(-1 * clamp(20px, 5vw, 64px)); padding: 6px clamp(20px, 5vw, 64px) 0; }
   .work-body { padding: 20px 0 0; }
 
-  .plan-card { padding: 32px 26px; }
-  .foundation-strip { grid-template-columns: 1fr; padding: 24px 22px; gap: 16px; }
-  .foundation-mark { width: 44px; height: 44px; }
-  .foundation-mark svg { width: 26px; height: 26px; }
-  .foundation-list { grid-template-columns: 1fr; }
   .hero-ctas { flex-direction: column; align-items: stretch; }
   .hero-ctas .btn-primary, .hero-ctas .btn-secondary { width: 100%; }
   .hero-mock-wrap { margin: 0 8px; }
@@ -1587,14 +1646,6 @@ nav.site-nav.scrolled {
   }
   .pricing-tab:hover { border-color: var(--border-strong); }
   .pricing-tab:active { transform: scale(0.97); }
-  .pricing-tab-popular {
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--green-label);
-    line-height: 1;
-  }
   .pricing-tab-name {
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 14px;

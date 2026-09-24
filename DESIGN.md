@@ -7,6 +7,8 @@ colors:
   muted: "light-dark(oklch(0.48 0.015 150), oklch(0.68 0.015 150))"
   sprout-green: "light-dark(oklch(0.6 0.15 150), oklch(0.66 0.15 150))"
   sprout-green-dark: "light-dark(oklch(0.5 0.15 150), oklch(0.58 0.15 150))"
+  sprout-green-fill: "light-dark(oklch(0.47 0.13 150), oklch(0.47 0.12 150))"
+  sprout-green-fill-hover: "light-dark(oklch(0.41 0.12 150), oklch(0.53 0.13 150))"
   sprout-green-deep: "light-dark(oklch(0.4 0.13 150), oklch(0.82 0.12 150))"
   sprout-green-soft: "light-dark(oklch(0.94 0.03 150), oklch(0.27 0.035 150))"
   sprout-green-label: "light-dark(oklch(0.48 0.14 150), oklch(0.75 0.14 150))"
@@ -125,6 +127,7 @@ The palette is built from one hue family (150°, green) doing almost all of the 
 ### Primary
 - **Sprout Green** (`light-dark(oklch(0.6 0.15 150), oklch(0.66 0.15 150))`): the brand color. Used on primary CTAs, links, the nav's active-state underline, icon-wrap accents, and the scroll-progress bar. This is the color a visitor should associate with SproutDigital.
 - **Sprout Green Dark** (`light-dark(oklch(0.5 0.15 150), oklch(0.58 0.15 150))`): the hover/pressed state for Sprout Green — buttons and nav CTAs darken into this on hover rather than lightening.
+- **Sprout Green Fill / Fill Hover** (`light-dark(oklch(0.47 0.13 150), oklch(0.47 0.12 150))` / `light-dark(oklch(0.41 0.12 150), oklch(0.53 0.13 150))`): the fill for any surface carrying white text: primary buttons, nav CTA, skip link, the featured pricing card, the open FAQ marker. White on Sprout Green is only 3.7:1 (2.9:1 in dark mode); on Fill it is about 6.8:1 in both schemes. Sprout Green stays the accent for icons, dots, links and progress.
 - **Sprout Green Deep** (`light-dark(oklch(0.4 0.13 150), oklch(0.82 0.12 150))`): a higher-contrast green for text/numbers sitting on `sprout-green-soft` tinted backgrounds (bento ROAS number, testimonial metric pill, avatar initials).
 - **Sprout Green Soft** (`light-dark(oklch(0.94 0.03 150), oklch(0.27 0.035 150))`): the tint background for eyebrow badges, icon-wrap chips, and the "green" testimonial card variant.
 - **Sprout Green Label** (`light-dark(oklch(0.48 0.14 150), oklch(0.75 0.14 150))`): the dedicated color for uppercase `.eyebrow-label` section kickers — distinct from body-text green so labels stay legible at small sizes.
@@ -205,7 +208,7 @@ Buttons, cards, and inputs share one tactile signature: **confident and tactile*
 
 ### Buttons
 - **Shape:** 10px radius (`--rounded.sm`), except the compact nav CTA at the same visual weight with a slightly tighter radius.
-- **Primary:** Sprout Green background, white text, 700 weight, `14px 30px` padding, 48px min-height (touch target). Hover: background steps to Sprout Green Dark, lifts `translateY(-3px)`, and gains the Sprout-Green-tinted glow shadow.
+- **Primary:** Sprout Green Fill background, white text, 700 weight, `14px 30px` padding, 48px min-height (touch target). Hover: background steps to Sprout Green Fill Hover, lifts `translateY(-3px)`, and gains the Sprout-Green-tinted glow shadow.
 - **Secondary:** transparent background, 1.5px Border Strong outline, Ink text. Hover: fills with Hover Fill and lifts the same `-3px`.
 - **Nav CTA:** same green fill as Primary but smaller (15px text, `10px 22px` padding); hover scales `1.04` instead of translating, since it sits inline in the nav rather than floating on a section.
 
@@ -217,7 +220,7 @@ Buttons, cards, and inputs share one tactile signature: **confident and tactile*
 - **Corner Style:** 16px for standard cards (service, work), 18–20px for feature-weight cards (pricing, bento, testimonial, contact).
 - **Background:** `--card` (opaque) for standard cards; `--card-glass` (translucent + blur) reserved for the nav only.
 - **Shadow Strategy:** ambient at rest, deepened + lifted on hover — see Elevation.
-- **Border:** 1px `--border` at rest; the featured pricing plan replaces the border and background with solid Sprout Green instead of a border treatment.
+- **Border:** 1px `--border` at rest; the featured pricing plan replaces the border and background with solid Sprout Green Fill instead of a border treatment. The pricing page is a two-step path: a full-width Launch card (Foundation attached) as Step 1, then Growth/Scale on shared subgrid rows as Step 2, each step headed by a "Step N" kicker.
 - **Internal Padding:** 26–40px depending on card weight, fluid via `clamp()` on the larger cards.
 
 ### Inputs / Fields

@@ -20,7 +20,7 @@ One person handles the whole funnel — the same operator designs and builds the
 
 ## Operating Context
 
-Typical engagement: prospect requests a free audit → SproutDigital reviews their current site/rankings and proposes a plan → one-time site build (Launch), bundled automatically with a recurring hosting/care retainer (Foundation, 6-month minimum) so the site keeps working after handoff → optional upsell into one growth channel, SEO or paid ads (Growth), or both together plus CRO (Scale), once the client is ready to invest in growth. Channels currently covered: Google Search Ads, Meta (Facebook & Instagram) Ads, retargeting, conversion tracking, and organic SEO.
+Typical engagement: prospect requests a free audit → SproutDigital reviews their current site/rankings and proposes a plan → one-time site build (Launch), bundled automatically with a recurring hosting/care retainer (Foundation, 6-month minimum) so the site keeps working after handoff → optional upsell into one growth channel, SEO or paid ads (Growth), or both together plus CRO (Scale), once the client is ready to invest in growth. Channels currently covered: Google Search Ads, Meta (Facebook & Instagram) Ads, retargeting, conversion tracking, and organic SEO. Clients who already have a website can skip Launch and start directly on Growth or Scale, which then work on their current site (hosting & care is included only when SproutDigital hosts it). The pricing page presents this as a two-step path (Step 1: Launch + Foundation; Step 2: Growth/Scale) with "talk first" CTAs, since every plan button leads to a free call rather than a checkout; Growth carries a "Recommended" badge rather than an unverifiable "Most popular".
 
 ## Capabilities and Constraints
 

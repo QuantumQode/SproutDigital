@@ -106,17 +106,30 @@ const mobileCtaBar = document.getElementById('mobile-cta-bar');
 if (mobileCtaBar) document.body.classList.add('has-cta-bar');
 {
   let ticking = false;
+  // On pricing, the audit bar would outshout each plan's own button, so it
+  // stays hidden while the plans are on screen.
+  let plansInView = false;
   const onScroll = () => {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
       const y = window.scrollY;
       if (siteNavEl) siteNavEl.classList.toggle('scrolled', y > 40);
-      if (mobileCtaBar) mobileCtaBar.classList.toggle('show', y > 600);
+      if (mobileCtaBar) mobileCtaBar.classList.toggle('show', y > 600 && !plansInView);
       ticking = false;
     });
   };
   window.addEventListener('scroll', onScroll, { passive: true });
+  const planEls = mobileCtaBar ? [...document.querySelectorAll('.plan-launch, .pricing-grid')] : [];
+  if (planEls.length && 'IntersectionObserver' in window) {
+    const visible = new Set();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
+      plansInView = visible.size > 0;
+      onScroll();
+    });
+    planEls.forEach(el => io.observe(el));
+  }
   onScroll();
 }
 
@@ -223,7 +236,7 @@ if (pricingGrid) {
     tabsEl = document.createElement('div');
     tabsEl.className = 'pricing-tabs';
     tabsEl.setAttribute('role', 'tablist');
-    tabsEl.setAttribute('aria-label', 'Pricing plans');
+    tabsEl.setAttribute('aria-label', 'Growth plans');
     tabButtons = planCards.map((card, i) => {
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -232,12 +245,6 @@ if (pricingGrid) {
       btn.setAttribute('role', 'tab');
       btn.setAttribute('aria-controls', card.id || (card.id = `pricing-panel-${i}`));
       card.setAttribute('aria-labelledby', btn.id);
-      if (card.classList.contains('featured')) {
-        const popular = document.createElement('span');
-        popular.className = 'pricing-tab-popular';
-        popular.textContent = 'Popular';
-        btn.appendChild(popular);
-      }
       const name = document.createElement('span');
       name.className = 'pricing-tab-name';
       name.textContent = card.querySelector('.plan-name')?.textContent || `Plan ${i + 1}`;
